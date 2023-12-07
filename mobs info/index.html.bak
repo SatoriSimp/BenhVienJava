@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<meta charset = "utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+      <title>BVJAVA Wikipedia</title>
+      <link rel="shortcut icon" type="image/icon.png" href="img/pivi.png">
+      <link rel="stylesheet" type="text/css" href="decors/styles.css">
+      <script src="decors/script.js"></script>       
+</head>
+
+<body>
+      <div class="stand-border" id="writings" style="margin-top: 0;height:90vh;overflow-y: scroll;overflow-x: hidden;border-image: url('img/bd-border.png');background: url('img/dg.jpg');">
+            <div id="tables" class="fixed-contents">
+                  <ul>
+                        <span class="title">
+                        <button disabled id="menu_b" onclick="display('menu')">
+                              Introduction
+                        </button>
+                        </span>
+                  </ul>
+                  <ul> 
+                        <li>
+                        <span class="title">Enemies</span>
+                              <ul>
+                                    <li><button id="akg_intro_b" onclick="display('akg_intro')">Enemies list</button></li>
+                              </ul>
+                        </li>
+                  </ul>
+            </div>
+            <vl>
+            <div id="contents">
+                  <div class="hidden_textbox" id="menu" style="display:inline">
+                        <h1><span style="color:rgb(255, 92, 92); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                        <b>Hall of Shitposts</b>
+                        </span></h1>
+                        <p>cứt bài đăng.</p>
+                        <p>Chỉ sp browser trên máy tính nên thằng nào xài điện thoại thì nên ts (hoặc có thể chọn setting: trang web cho máy tính, vẫn sẽ đau mắt nhưng đỡ hơn).</p>
+                        <p>cuộc đời khó</p>
+                        <img src="img/sadge.jpg" style="height: 400px; width: 550px; border-radius: 25px;">               
+                  </div>
+
+                  <div class="hidden_textbox" id="akg_intro">
+                        <p>List of all current enemies.</p>
+                        <input id="searchInput" onkeyup="find(event)" name="search" type="text" placeholder="Search enemy by name..."/>
+                        <table id="dmg-chart2" style="width: 100%; text-align: center; border: yellow 2px solid;">
+                              <thead>
+                                    <th>Name</th>
+                                    <th>HP <button onclick="sortTable(1, true)">▲</button> <button onclick="sortTable(1, false)">▼</button></th>
+                                    <th>ATK <button onclick="sortTable(2, true)">▲</button> <button onclick="sortTable(2, false)">▼</button></th>
+                                    <th>AP <button onclick="sortTable(3, true)">▲</button> <button onclick="sortTable(3, false)">▼</button></th>
+                                    <th>DEF <button onclick="sortTable(4, true)">▲</button> <button onclick="sortTable(4, false)">▼</button></th>
+                                    <th>RES <button onclick="sortTable(5, true)">▲</button> <button onclick="sortTable(5, false)">▼</button></th>
+                                    <th>Ability</th>
+                              </thead>
+                              <tbody>
+                                    <tr>
+                                          <td>Practice Dummy</td>
+                                          <td>30000</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>
+                                                - Does not attack.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Bewitched Dummy</td>
+                                          <td>40000</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>100</td>
+                                          <td>
+                                                - Does not attack.<br>
+                                                - Upon receiving damage, 33% of the damage taken is redirected to the source (treated as true damage).
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Goblin Shaman</td>
+                                          <td>5000</td>
+                                          <td>50</td>
+                                          <td>550</td>
+                                          <td>200</td>
+                                          <td>600</td>
+                                          <td>
+                                                - Art Overflow (Cost: 3 / Initial: 0): Next attack deals magic damage equals to 100 (+2.5 for every 1% of the target's missing health)% AP.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. "Art Overflow" deals 30% more damage and ignores 30% target's RES.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Senior Goblin Shaman</td>
+                                          <td>6000</td>
+                                          <td>50</td>
+                                          <td>700</td>
+                                          <td>200</td>
+                                          <td>650</td>
+                                          <td>
+                                                - Ignores 50 RES.<br>
+                                                - Art Overflow (Cost: 3 / Initial: 0): Next attack deals magic damage equals to 100 (+2.5 for every 1% of the target's missing health)% AP.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. "Art Overflow" deals 30% more damage and ignores 30% target's RES.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Zombified Orc</td>
+                                          <td>8000</td>
+                                          <td>600</td>
+                                          <td>0</td>
+                                          <td>600</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Has 60% life-steal.<br>
+                                                - Loses 5% max HP and 20% current DEF and RES every turn.<br>
+                                                - Despite the Weaks (Cost: 3 / Initial: 0): Next attack deals 200% ATK as physic damage and heals sealf for 200% of the damage dealt. Targets unit with lowest DEF (unless when being 'Taunted').<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. ATK +200, percentage of current DEF and RES loss are reduced to 8%.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Prefect Zombified Orc</td>
+                                          <td>9000</td>
+                                          <td>750</td>
+                                          <td>0</td>
+                                          <td>650</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Has 60% life-steal.<br>
+                                                - Loses 5% max HP and 20% current DEF and RES every turn.<br>
+                                                - Despite the Weaks (Cost: 3 / Initial: 0): Next attack deals 200% ATK as physic damage and heals sealf for 200% of the damage dealt. Targets unit with lowest DEF (unless when being 'Taunted').<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. ATK +200, percentage of current DEF and RES loss are reduced to 8%.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Vengeful Spirit</td>
+                                          <td>8000</td>
+                                          <td>0</td>
+                                          <td>400</td>
+                                          <td>800</td>
+                                          <td>200</td>
+                                          <td>
+                                                - The Second Death (Cost: 5 / Initial: 4): Marks a friendly unit with lowest mana. 
+                                                After 3 turns have passed, steals 6 manas from that marked target (or all of them if the target is having less than 6 manas), 
+                                                then deals (20% AP + 10% target's max HP) * (6 - [mana stole] + 1) magic damage to them (increased to <em>9999(!)</em> if the target has 0 mana by the time the mark activates) and heals self for 400 * (6 - [mana stole] + 1) HP.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The Second Death's mana cost is reduced to 3.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Hateful Spirit</td>
+                                          <td>9000</td>
+                                          <td>0</td>
+                                          <td>470</td>
+                                          <td>850</td>
+                                          <td>200</td>
+                                          <td>
+                                                - The Second Death (Cost: 5 / Initial: 4): Marks a friendly unit with lowest mana. 
+                                                After 3 turns have passed, steals 6 manas from that marked target (or all of them if the target is having less than 6 manas), 
+                                                then deals (20% AP + 10% target's max HP) * (6 - [mana stole] + 1) magic damage to them (increased to <em>9999(!)</em> if the target has 0 mana by the time the mark activates) and heals self for 525 * (6 - [mana stole] + 1) HP.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The Second Death's mana cost is reduced to 3.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Reaper</td>
+                                          <td>7000</td>
+                                          <td>600</td>
+                                          <td>0</td>
+                                          <td>400</td>
+                                          <td>150</td>
+                                          <td>
+                                                - Normal attack targets friendly unit with lowest current health.<br>
+                                                - Reap (Cost: 3 / Initial: 0): Attack all friendly units once, dealing (100% ATK + 100% target's missing health) physic damage (this number can not surpass 300% of self ATK). If at least 1 unit is taken down by this skill, recasts it to deal damage again (this process can happen multiple times).<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Gains an additional +120% max HP. Reap's mana cost is reduced to 2.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Enraged Possessed Bonethrower</td>
+                                          <td>8000</td>
+                                          <td>1900</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Has 200 and 35% DEF ignore and penetration, respectively.<br>
+                                                - Loses 15% max health after each turn.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Obtains 3 layers of 'Shields'. Temporary disables the HP loss overtime while possessing at least 1 'Shield'.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Basin Infused Slug</td>
+                                          <td>8000</td>
+                                          <td>400</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>200</td>
+                                          <td>
+                                                - Attack initiates "Burn" on the target with base damage of 150. For every 1% missing health of self, this base damage will be increased by 7.25.<br>
+                                                - While having below 50% max health, increases DEF by 4.65 and RES by 4.05 for every 1% missing health.<br>
+                                                - When defeated, at the end of that turn, deals 1000 true damage to all friendly units (can only happen once).<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Bonus DEF and RES gain per 1% missing health are increased to 7.5 and 6.25 respectively.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Nourished Infused Slug</td>
+                                          <td>9000</td>
+                                          <td>420</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>200</td>
+                                          <td>
+                                                - Attack initiates "Burn" on the target with base damage of 150, lasts 3 turns. For every 1% missing health of self, this base damage will be increased by 7.25.<br>
+                                                - While having below 50% max health, increases DEF by 4.65 and RES by 4.05 for every 1% missing health.<br>
+                                                - When defeated, at the end of that turn, deals 1200 true damage to all friendly units (can only happen once).<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Bonus DEF and RES gain per 1% missing health are increased to 7.5 and 6.25 respectively.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Venom Rock Spider</td>
+                                          <td>7000</td>
+                                          <td>300</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>300</td>
+                                          <td>
+                                                - Targets unit that is currently not having "Poisoned" status over others.<br>
+                                                - Attack initiates "Poison" on the target with base damage of 650, lasts 3 turns.<br>
+                                                - When attacked, if the source is having the "Poisoned" status, the damage dealt is halved.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Attack can target 2 distinct units at once.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Rotchaser</td>
+                                          <td>8700</td>
+                                          <td>550</td>
+                                          <td>0</td>
+                                          <td>600</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Attack initiates "Bleeding" on the target with base damage of 650 + 10% target's max health, lasts 3 turns.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. "Bleeding"'s damage is increased to 750 + 20% target's max health.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Lunatic Rotchaser</td>
+                                          <td>10000</td>
+                                          <td>600</td>
+                                          <td>0</td>
+                                          <td>700</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Attack initiates "Bleeding" on the target with base damage of 650 + 10% target's max health, lasts 3 turns.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. "Bleeding"'s damage is increased to 750 + 20% target's max health.<br>
+                                                - Side note: The Lunatic Rotchaser spawned from the pack "Slow but Painful" has a different stats from the others. With the higher ATK of 820, but the "Bleeding" damage is reduced to 500 + 10% target's max health (600 + 20% max health in Challenge Mode) to offset this fact.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Gift of the Wild</td>
+                                          <td>5000</td>
+                                          <td>400</td>
+                                          <td>400</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>
+                                                - Initially spawned with 5 "Soul Rings".<br>
+                                                - For every "Soul Rings" self currently hold, gains 15% physic and art damage reduction (up to 100%).<br>
+                                                - While holding at least 1 "Soul Ring", attack deals (150 + 35 * [number of "Soul Rings"])% damage. Loses 1 "Soul Ring" afterwards.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The number of inital "Soul Rings" is increased to 8.<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Bloodthristy Heir</td>
+                                          <td>2000</td>
+                                          <td>0</td>
+                                          <td>180</td>
+                                          <td>0</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Has a permanent 75% physic and art damage reduction.<br>
+                                                - Attack hits all friendly units and heals for 170% damage dealt.<br>
+                                                - If the healing exceeds self max health, permanently gains extra max health equals to 50% of the exceeded healing.<br>
+                                                - For everytime max health is increased, also permanently increases AP by 20.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The ratio of exceeded healing that got converted into max health is increased to 75%, and bonus AP is increased to 35.<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Engorged Heir</td>
+                                          <td>2300</td>
+                                          <td>0</td>
+                                          <td>240</td>
+                                          <td>0</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Has a permanent 80% physic and art damage reduction.<br>
+                                                - Attack hits all friendly units and heals for 170% damage dealt.<br>
+                                                - If the healing exceeds self max health, permanently gains extra max health equals to 50% of the exceeded healing.<br>
+                                                - For everytime max health is increased, also permanently increases AP by 20.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The ratio of exceeded healing that got converted into max health is increased to 75%, and bonus AP is increased to 35.<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>"Redmark" Eradicator</td>
+                                          <td>6500</td>
+                                          <td>1200</td>
+                                          <td>0</td>
+                                          <td>350</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Permanently increases all enemies' (including self) base ATK and AP by 7% (hence stacks multiplicatively if there are more than one "Redmark" Eradicator).<br>
+                                                - Stays "Invisible", status is removed after this unit has attacked 3 times, or when all other enemies are defeated.<br>
+                                                - While "Invisible": will only attack if there is a friendly unit with less than 50% max health, dealing 210% ATK as physic damage. Prioritizes unit with highest missing health over others.<br>
+                                                - When the "Invisible" status is removed, attacks normally and no longer deals bonus damage.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Number of attacks required to remove "Invisible" is increased to 5. ATK and AP buff effect is increased to 10%.<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>The Avenger</td>
+                                          <td>13000</td>
+                                          <td>550</td>
+                                          <td>0</td>
+                                          <td>300</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Attack ignores 25% DEF.<br>
+                                                - Attack targets friendly unit that has dealt most damage to self (unless when being 'Taunted').<br>
+                                                - Continuously attacking the same unit will increase ATK and DEF penetration by 200 and 10%, respectively, each time. This bonus stacks additively and without a limit. But will be lost (and recounted) <em>immediately</em> upon switching to a different target.<br>
+                                                - When falls below half health for the first time, self becomes enraged, gains the following properties:<br>
+                                                <em>
+                                                      + ATK increased by 80%.<br>
+                                                      + Bonus ATK and DEF penetration gains by attacking the same target are increased to 300 and 15%.<br>
+                                                      + Now has a permanent 'Shelter' effect of 50%.<br>
+                                                </em>
+                                                - Upon defeated for the first time, immediately revives with 50% max health (and thus still keeps the bonus properties from enraged status).<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Max health is increased by an additional 8000 and self becomes imune to crowd-control effects.<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>The Singer</td>
+                                          <td>12500</td>
+                                          <td>100</td>
+                                          <td>400</td>
+                                          <td>400</td>
+                                          <td>600</td>
+                                          <td>
+                                                - Has 80% physic and art damage reduction.<br>
+                                                - Attack has the following properties:<br>
+                                                <em>
+                                                      + Inflicts 'Fragile' for 3 turns, its value changes depending on the target's status, but has a base value of 20%.<br>
+                                                      + If the attack initiates 'Fragile' on the target, it deals bonus magic damage equals to 60% self AP.<br>
+                                                      + If the target is already inflicted with 'Fragile', its duration is set to 3 turns and the 'Fragile' value is increased additively by 50% amount of the base value. This can add up indefinitely and if the value of 'Fragile' effect on that target is lower than 150% amount of the base value, it will be set to that corresponding value.<br>
+                                                      + When the attack successfully deals damage. All enemies (including self) are healed for 168% damage dealt.<br>
+                                                </em>
+                                                - Whenever an enemy (excluding self) attacks a target that has already been inflicted with 'Fragile', it is also healed for 280% of this unit's AP.<br>
+                                                - When all other enemies have been defeated (more accurately, when self is the only valid target), enters "Soloist" state with the following properties:<br>
+                                                <em>
+                                                      + Loses the damage reduction effect.<br>
+                                                      + AP is reduced by 40%, but obtains 60% RES penetration.<br>
+                                                      + Attack now hits all friendly units.<br>
+                                                      + The AoE healing on damage dealt is reduced to 134%.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The base value of 'Fragile' is increased to 35%. The AoE healing on damage dealt is increased to 276% (221% during "Soloist form") and healing on attacking 'Fragile' targets is increased to 460% self AP.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Gravestone</td>
+                                          <td>85000</td>
+                                          <td>500</td>
+                                          <td>0</td>
+                                          <td>300</td>
+                                          <td>600</td>
+                                          <td>
+                                                - Has 33% DEF penetration.<br>
+                                                - Attack has the following properties:<br>
+                                                <em>
+                                                      + Deals additional physic damage equals to 2.95% ATK for every 1% target's missing health. Scaling is increased to 3.98% ATK if the target has less than 50% max health.<br>
+                                                      + Inflict 35% 'Weakening' and 'Silence' debuffs with durations of 2 and 3 turns respectively.<br>
+                                                      + If the target has less than 50% health, also inflicts them with 50% 'Grievous Wound' for 2 turns.<br>
+                                                </em>
+                                                - Finishing Touch (Cost: 3 / Initial: 0): Considered as follow-up attack. Attacks all friendly units that are having either 'Weakening' or 'Silence' status, dealing physic damage equals to 50% ATK + 30% target's max health once.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The value of 'Weakening' debuff is increased to 60%.
+                                          </td>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div>
+            </div>
+      </div>
+</body>
+</html>

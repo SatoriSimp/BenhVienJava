@@ -86,8 +86,8 @@ public class TFO extends Enemy {
 
     @Override
     public void naturalRecovery() {
-        int healing = !challengeMode ? (getMaxHealth() * 25 / 1000 + getMissingHealth() * 55 / 1000)
-                                    : (getMaxHealth() * 45 / 1000 + getMissingHealth() * 66 / 1000);
+        int healing = !challengeMode ? (int) (getMaxHealth() * 0.025f + getMissingHealth() * 0.055f)
+                                    : (int) (getMaxHealth() * 0.045f + getMissingHealth() * 0.066f);
         if (this.getShield() > 0) healing *= (!challengeMode) ? 3 : 4;
         System.out.println();
         healing(healing, true);

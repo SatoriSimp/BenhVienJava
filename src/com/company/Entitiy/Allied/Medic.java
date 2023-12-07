@@ -40,7 +40,8 @@ public class Medic extends Soldier {
                 + gap_T + PrintColor.BCyan("Stilled Breath") + ": Healing an ally grant to self 1 stack of " + PrintColor.BYellow("\"Clarity\"")
                 + ". At 3 stacks, the next healing that does not target self consumes all of it to increases the healing by " + PrintColor.Green("25%")
                 + " and grants to the target " + PrintColor.Cyan("2 mana") + ".\n"
-                + gap_T + PrintColor.BBlue("Environment Adaption") + ": Reduces " + PrintColor.Blue("the likelihood of being targeted") + " of self " + PrintColor.BBlue("slightly") + ".";
+                + gap_T + PrintColor.BBlue("Environment Adaption") + ": Reduces " + PrintColor.Blue("the likelihood of being targeted") + " of self " + PrintColor.BBlue("slightly")
+                + ". When this unit is present, all allies " + PrintColor.Green("max HP +8%") + ".";
         s1_name = PrintColor.BBlue("Weakening");
         s1_des = "Casts a special spell on an enemy, dealing " + PrintColor.Purple((200 + getAp() * 4 / 3) + " (200 + 133% AP) magic damage")
                 + " and " + PrintColor.Blue("reduces their ATK by 35%") + " in 2 turns.";
@@ -181,6 +182,11 @@ public class Medic extends Soldier {
                 }
             });
         }
+    }
+
+    @Override
+    public void preBattleSpecial() {
+        SoList.forEach(s -> s.setMaxHealth((int) (s.getMaxHealth() * 1.08f)));
     }
 
     @Override

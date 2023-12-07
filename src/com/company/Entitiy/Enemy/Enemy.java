@@ -156,6 +156,7 @@ abstract public class Enemy extends Entity implements EnemyBehaviors {
 
     @Override
     public void normalAttack(Entity target) {
+        if (!canAttack) return;
         super.normalAttack(target);
         mana++;
     }

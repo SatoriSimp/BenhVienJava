@@ -36,6 +36,7 @@ abstract public class Entity implements Cloneable {
     private int health, maxHealth;
     private short atk, ap, def, res, baseAtk, baseAp, baseDef, baseRes, shield = 0, tauntLevel = 1;
     private short defPen = 0, defIgn = 0, resPen = 0, resIgn = 0, reduction = 0, lifesteal = 0;
+    private float physAmp = 0, artAmp = 0;
     private short recovery = 0;
 
     public void addMaxHealth(int amount) {
@@ -142,6 +143,8 @@ abstract public class Entity implements Cloneable {
     public short getDefPen() {
         return defPen;
     }
+
+    public short getReduction() { return reduction; }
 
     public short getResPen() {
         return resPen;
@@ -376,6 +379,12 @@ abstract public class Entity implements Cloneable {
             System.out.println(PrintColor.yellow + target.getName() + PrintColor.def + " reflects to " +
                     PrintColor.yellow + this.getName() + " " + PrintColor.red + reflect + " damage!");
         }
+        else if (target instanceof PlxPioneer) {
+            this.atkDebuff.initialize((short) 25, (short) 3);
+        }
+        else if (target instanceof BDummy) {
+            ((BDummy) target).reflect(this, damage);
+        }
 
         if (target instanceof Avenger && !(this instanceof Enemy)) {
             ((Avenger) target).DamageTaken.put(this.toString(), ((Avenger) target).DamageTaken.getOrDefault(this.toString(), 0) + damage);
@@ -454,6 +463,12 @@ abstract public class Entity implements Cloneable {
             System.out.println(PrintColor.yellow + target.getName() + PrintColor.def + " reflects to " +
                     PrintColor.yellow + this.getName() + " " + PrintColor.red + reflect + " damage!");
         }
+        else if (target instanceof PlxPioneer) {
+            this.atkDebuff.initialize((short) 25, (short) 3);
+        }
+        else if (target instanceof BDummy) {
+            ((BDummy) target).reflect(this, damage);
+        }
 
         if (target instanceof Avenger && !(this instanceof Enemy)) {
             if (!((Avenger) target).DamageTaken.containsKey(this.toString())) {
@@ -504,7 +519,7 @@ abstract public class Entity implements Cloneable {
     public void preTurnPreparation() {
         if (this.poison.inEffect() && this.isAlive()) {
             this.setHealingreduction((short) 35, (short) 1);
-            int poisonDmg = damageOutput(0, poison.getValue(), this, true);
+            int poisonDmg = this.poison.getInflicter().damageOutput(0, poison.getValue(), this, true);
             System.out.println(PrintColor.BPurple("Poison triggers! ") + PrintColor.Yellow(this.name)
                     + " takes " + PrintColor.Purple(poisonDmg + " damage") + "!");
             this.health -= poisonDmg;
@@ -512,7 +527,7 @@ abstract public class Entity implements Cloneable {
         }
         if (this.bleed.inEffect() && this.isAlive()) {
             int bleedDmg = this.bleed.getValue() / 2;
-            int total = damageOutput(bleedDmg, 0, bleedDmg, this, true);
+            int total = bleed.getInflicter().damageOutput(bleedDmg, 0, bleedDmg, this, true);
             this.health -= total;
             System.out.println(PrintColor.BRed("Bleeding! ") + PrintColor.Yellow(this.name)
                     + " takes " + PrintColor.Red(total + " damage") + "!");
@@ -520,7 +535,7 @@ abstract public class Entity implements Cloneable {
         }
         if (this.burn.inEffect() && this.isAlive()) {
             int burnDmg = (int) (this.burn.getValue() * (1.0 + this.getDef() * 0.0012f));
-            int output = damageOutput(0, 0, burnDmg, this, true);
+            int output = burn.getInflicter().damageOutput(0, 0, burnDmg, this, true);
             this.health -= output;
             System.out.println(PrintColor.BRed("Burns! ") + PrintColor.Yellow(this.name)
                     + " takes " + PrintColor.Red(output + " damage") + "!");

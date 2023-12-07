@@ -10,7 +10,7 @@ public class Swordsman extends Soldier {
 
     public Swordsman() {
         setName("Swordsman");
-        shortDes = "";
+        shortDes = "Self-sustain, becomes stronger as they lose more HP.";
         tar_1 = true;
         tar_2 = true;
         cost_1 = 2;

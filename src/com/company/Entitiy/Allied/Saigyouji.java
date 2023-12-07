@@ -19,6 +19,7 @@ public class Saigyouji extends Soldier {
 
     public Saigyouji() {
         setName("Saigyouji");
+        shortDes = "Art. Play the game in an irregular way.";
         tar_1 = true;
         tar_2 = false;
         cost_1 = 2;
@@ -109,13 +110,18 @@ public class Saigyouji extends Soldier {
             case 1:
                 System.out.println("Pick a target:");
                 for (Enemy t : EnList) {
-                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                     ++cnt;
                 }
                 enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
                 tar = EnList.get(enChoice - 1);
                 if (!tar.isAlive()) {
-                    System.out.println("This target is already gone! Try choosing another one instead!");
+                    System.out.println(PrintColor.Red("This target is already gone! Try choosing another one instead!"));
+                    action();
+                    return 0;
+                }
+                else if (tar.isInvisible) {
+                    System.out.println(PrintColor.Yellow("This target can not be targeted! Try choosing another one instead!"));
                     action();
                     return 0;
                 }
@@ -123,32 +129,36 @@ public class Saigyouji extends Soldier {
                 break;
             case 2:
                 if (this.silence.inEffect()) {
-                    System.out.println(PrintColor.Red("Silenced, can not cast skill!"));
+                    System.out.println(PrintColor.Red("Silenced! Can not use skill!"));
                     action();
                     return 0;
                 }
                 else if (tar_1) {
                     System.out.println("Pick a target:");
                     for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
                     tar = EnList.get(enChoice - 1);
                     if (!tar.isAlive()) {
-                        System.out.println("This target is already gone! Try choosing another one instead!");
+                        System.out.println(PrintColor.Red("This target is already gone! Try choosing another one instead!"));
                         action();
                         return 0;
-                    } else if (!this.castSkill_1(tar)) {
+                    }
+                    else if (tar.isInvisible) {
+                        System.out.println(PrintColor.Yellow("This target can not be targeted! Try choosing another one instead!"));
+                        action();
+                        return 0;
+                    }
+                    else if (!this.castSkill_1(tar)) {
                         action();
                         return 0;
                     }
                 }
-                else {
-                    if (!this.castSkill_1(null)) {
-                        action();
-                        return 0;
-                    }
+                else if (!castSkill_1(null)) {
+                    action();
+                    return 0;
                 }
                 break;
             case 3:
@@ -157,23 +167,7 @@ public class Saigyouji extends Soldier {
                     action();
                     return 0;
                 }
-                else if (tar_2) {
-                    System.out.println("Pick a target:");
-                    for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
-                        ++cnt;
-                    }
-                    enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
-                    tar = EnList.get(enChoice - 1);
-                    if (!tar.isAlive()) {
-                        System.out.println("This target is already gone! Try choosing another one instead!");
-                        action();
-                        return 0;
-                    } else if (!this.castSkill_2(tar)) {
-                        action();
-                        return 0;
-                    }
-                } else {
+                else {
                     if (!this.castSkill_2(null)) {
                         action();
                         return 0;

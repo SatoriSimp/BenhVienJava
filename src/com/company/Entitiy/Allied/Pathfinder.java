@@ -13,7 +13,7 @@ public class Pathfinder extends Soldier {
 
     public Pathfinder() {
         setName("Pathfinder");
-        shortDes = "";
+        shortDes = "Adapt to different combat situation";
         tar_1 = true;
         tar_2 = false;
         cost_1 = 2;
@@ -100,7 +100,8 @@ public class Pathfinder extends Soldier {
         defenseState = !defenseState;
 
         if (defenseState) {
-            System.out.println(PrintColor.Yellow("Switched state to offensive state!"));
+            System.out.println(PrintColor.Yellow("Switched to offensive state!"));
+            while(defBuff.inEffect()) defBuff.fadeout();
             storeStat = new int[]{getBaseAtk(), getBaseDef(), getBaseRes(), getMaxHealth()};
             setAtk((short) (getBaseAtk() + getMaxHealth() * 200 / 1000));
             setLifesteal((short) (getBaseDef() * 0.0225 + getBaseRes() * 0.023));
@@ -110,6 +111,7 @@ public class Pathfinder extends Soldier {
         }
         else {
             System.out.println("Switched to default state!");
+            while(defBuff.inEffect()) defBuff.fadeout();
             setAtk((short) storeStat[0]);
             setDef((short) storeStat[1]);
             setRes((short) storeStat[2]);

@@ -17,18 +17,19 @@ public class Caster extends Soldier {
 
     public Caster() {
         setName("Caster");
+        shortDes = "Delivers a burst of art damage, either ST or AoE";
         tar_1 = true;
         tar_2 = false;
         cost_1 = 2;
         cost_2 = 4;
         hp = 2400;
-        atk = 50;
-        ap = 1025;
-        respen = 10;
+        atk = 70;
+        ap = 1050;
+        respen = 15;
         def = 250;
         res = 200;
         mana += 3;
-        charged += 1;
+        charged += 2;
         setMaxHealth(hp);
         setAtk(atk);
         setAp(ap);
@@ -46,7 +47,7 @@ public class Caster extends Soldier {
                 "a fully charged attack amplifies the damage by 45%, dealing " + PrintColor.red + (getAtk() * (1 + charge_max)) * 145 / 100  + " (580% ATK) physic damage" + PrintColor.def + " plus " + PrintColor.purple + getAp() * (1 + charge_max) * 145 / 100 + " (580% AP) magic damage" + PrintColor.def + ".\n" + gap_T +
                 PrintColor.BPurple("Dynamic") + ": For every charged attack in possession, " + PrintColor.Purple("RES ignore +70") +
                 ". When attacking " + PrintColor.Red("Elite enemies") + " with fully charged attack, " + PrintColor.Purple("number of charged attack +1") + ".\n" + gap_T +
-                PrintColor.BCyan("Quick Charge") + ": At the start of the battle, " + PrintColor.Blue("initial mana +3") + " and gains 1 charged attack.";
+                PrintColor.BCyan("Quick Charge") + ": At the start of the battle, " + PrintColor.Blue("initial mana +3") + " and obtains 2 charged attacks.";
         s1_name = PrintColor.BYellow("Fire Beacon");
         s1_des = "Strikes a target, dealing " + PrintColor.purple + (325 + getAp() * 5 / 3) + " (325 + 167% AP) magic damage" + PrintColor.def + " and immediately obtains" +
                 " 1 charged attack. If the target has " + PrintColor.green + "below 20% HP" + PrintColor.def + ", the damage becomes " + PrintColor.purple +
@@ -54,13 +55,13 @@ public class Caster extends Soldier {
                 "they will then be marked as " + PrintColor.yellow + "'Vulnerable'" + PrintColor.def + ", causing" +
                 " the next source of damage they have to receive from this unit being enhanced by " + PrintColor.purple + ((200 + getAp() * 4 / 5) * (1 + charged))
                 + " (" + 200 * (1 + charged) + " + " + 80 * (1 + charged) + "% AP [= 200 + 80% AP per 1 charged attack]) magic damage"
-                + PrintColor.def + ", up to " + PrintColor.purple + (200 + getAp() * 4 / 5) * (1 + charge_max) + " (600 + 300% AP) magic damage" + PrintColor.def + " and forfeits the mark";
+                + PrintColor.def + ", up to " + PrintColor.purple + (200 + getAp() * 4 / 5) * (1 + charge_max) + " (800 + 320% AP) magic damage" + PrintColor.def + " and forfeits the mark";
         s2_name = PrintColor.BPurple("Meteorite");
         s2_des = "Casts a spell that consumes all charged attacks to attack all enemies, " +
-                "dealing " + PrintColor.purple + (100 + getAp() * 12 / 10) + " (100 + 120% AP) magic damage" + PrintColor.def + ", each charged attack " +
-                "enhances the spell damage by " + PrintColor.purple + (35 + getAp() * 6 / 10) + " (35 + 60% AP) magic damage" + PrintColor.def + ", spell " +
-                "applies talent's effect to deal up to " + PrintColor.purple + ((100 + getAp() * 12 / 10 + getAp() * 6 / 10 * charge_max) * 145 / 100)
-                + " (" + ((100 + 35 * charge_max) * 145 / 100) + " + " + ((120 + 60 * charge_max) * 145 / 100) + "% AP) magic damage" + PrintColor.def + ".";
+                "dealing " + PrintColor.purple + (300 + getAp() * 12 / 10) + " (300 + 120% AP) magic damage" + PrintColor.def + ", each charged attack " +
+                "enhances the spell damage by " + PrintColor.purple + (80 + getAp() * 6 / 10) + " (80 + 60% AP) magic damage" + PrintColor.def + ", spell " +
+                "applies talent's effect to deal up to " + PrintColor.purple + ((300 + getAp() * 12 / 10 + getAp() * 6 / 10 * charge_max) * 145 / 100)
+                + " (" + ((300 + 80 * charge_max) * 145 / 100) + " + " + ((120 + 60 * charge_max) * 145 / 100) + "% AP) magic damage" + PrintColor.def + ".";
     }
 
     @Override
@@ -90,7 +91,7 @@ public class Caster extends Soldier {
             case 1:
                 System.out.println("Pick a target:");
                 for (Enemy t : EnList) {
-                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                     ++cnt;
                 }
                 if (charged < charge_max) System.out.println(PrintColor.yellow + cnt + ". Charges this attack");
@@ -98,10 +99,16 @@ public class Caster extends Soldier {
                 if (enChoice == cnt) {
                     ++mana;
                     chargesAttack();
-                } else {
+                }
+                else {
                     tar = EnList.get(enChoice - 1);
                     if (!tar.isAlive()) {
-                        System.out.println("This target is already gone! Try choosing another one instead!");
+                        System.out.println(PrintColor.Red("This target is already gone! Try choosing another one instead!"));
+                        action();
+                        return 0;
+                    }
+                    else if (tar.isInvisible) {
+                        System.out.println(PrintColor.Yellow("This target can not be targeted! Try choosing another one instead!"));
                         action();
                         return 0;
                     }
@@ -117,24 +124,29 @@ public class Caster extends Soldier {
                 else if (tar_1) {
                     System.out.println("Pick a target:");
                     for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
                     tar = EnList.get(enChoice - 1);
                     if (!tar.isAlive()) {
-                        System.out.println("This target is already gone! Try choosing another one instead!");
-                        action();
-                        return 0;
-                    } else if (!this.castSkill_1(tar)) {
+                        System.out.println(PrintColor.Red("This target is already gone! Try choosing another one instead!"));
                         action();
                         return 0;
                     }
-                } else {
-                    if (!this.castSkill_1(null)) {
+                    else if (tar.isInvisible) {
+                        System.out.println(PrintColor.Yellow("This target can not be targeted! Try choosing another one instead!"));
                         action();
                         return 0;
                     }
+                    else if (!this.castSkill_1(tar)) {
+                        action();
+                        return 0;
+                    }
+                }
+                else if (!castSkill_1(null)) {
+                    action();
+                    return 0;
                 }
                 break;
             case 3:
@@ -205,7 +217,7 @@ public class Caster extends Soldier {
     public boolean castSkill_1(Entity target) {
         if (!super.castSkill_1(target)) return false;
         chargesAttack();
-        int spellDmg = damageOutput(0, 325 + getAp() * 133 / 100, target);
+        int spellDmg = damageOutput(0, 325 + getAp() * 167 / 100, target);
         if (target.getHealth() < target.getMaxHealth() / 5) spellDmg = spellDmg * 175 / 100;
         else {
             System.out.println(PrintColor.yellow + target.getName() + " has been marked!" + PrintColor.def);
@@ -218,7 +230,7 @@ public class Caster extends Soldier {
     @Override
     public boolean castSkill_2(Entity target) {
         if (!super.castSkill_2(target)) return false;
-        int rawDmg = 100 + getAp() * 12 / 10 + (35 + getAp() * 6 / 10) * charged;
+        int rawDmg = 300 + getAp() * 12 / 10 + (80 + getAp() * 6 / 10) * charged;
         if (charged == charge_max) {
             rawDmg = rawDmg * 145 / 100;
         }
@@ -229,7 +241,7 @@ public class Caster extends Soldier {
                 int spellDmg = rawDmg;
                 if (isElite) {
                     addResIgn((short) 70);
-                    spellDmg += (35 + getAp() * 6 / 10) * 145 / 100;
+                    spellDmg += (80 + getAp() * 6 / 10) * 145 / 100;
                 }
                 dealingDamage(en, damageOutput(0, spellDmg, en), s2_name, PrintColor.purple);
                 if (en == Vulnerable) triggersMark();

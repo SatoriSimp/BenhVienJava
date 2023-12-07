@@ -14,6 +14,7 @@ public class Artificer extends Soldier {
 
     public Artificer() {
         setName("Artificer");
+        shortDes = "Physic. Play the game in an irregular way.";
         tar_1 = false;
         tar_2 = true;
         cost_1 = 2;
@@ -39,7 +40,7 @@ public class Artificer extends Soldier {
     public void writeKit() {
         talents = PrintColor.BYellow("Art of Blades")
                 + ": Controls up to " + PrintColor.BYellow( blades_max + " \"Spirit Blades\"") + " to assist in combat, every existing "
-                + PrintColor.BYellow("\"Divine Blade\"") + " increases " + PrintColor.Yellow("DEF by " + def_scale)
+                + PrintColor.BYellow("\"Spirit Blade\"") + " increases " + PrintColor.Yellow("DEF by " + def_scale)
                 + " and " + PrintColor.Cyan("RES by " + res_scale) + ".\n" + gap_T
                 + PrintColor.White("(Currently controlling " + PrintColor.BYellow(blades + " \"Spirit Blades\"") + PrintColor.white
                 + ", gain a total of " + PrintColor.Yellow("+" + (blades * def_scale) + " DEF")
@@ -62,9 +63,9 @@ public class Artificer extends Soldier {
                 "Birth of a Heroism"
         };
         String[] cusEff = {
-                "Dealing physic damage to a single target and additional physic damage to all other enemies.",
-                "Dealing huge physic damage to a single target.",
-                "Dealing successive minor physic damage to a single target and generates \"Spirit Blades\" for each attack hit."
+                "Dealing physic damage to a single target and additional physic damage to all other enemies. (Available when the number of current blades is between 61-80)",
+                "Dealing huge physic damage to a single target. (Available when the number of current blades is between 41-60)",
+                "Dealing successive minor physic damage to a single target and generates \"Spirit Blades\" for each attack hit. (Available when the number of current blades is between 5-40)"
         };
         byte BladeSeed;
         if (blades > 60) {
@@ -83,11 +84,11 @@ public class Artificer extends Soldier {
         else {
             cusEff[2] = "The blades form a swirl, repeatedly damage the target, dealing 5 instances of "
                     + PrintColor.Red((50 + getAtk() * 40 / 100) + " (50 + 40% ATK) physic damage")
-                    + ". For every instance that hits the target, " + PrintColor.BYellow("5 \"Divine Blades\"") + " are generated.";
+                    + ". For every instance that hits the target, " + PrintColor.BYellow("5 \"Spirit Blades\"") + " are generated.";
             BladeSeed = 2;
         }
         s2_name = PrintColor.BRed("Bladeworks");
-        s2_des = "Attack an enemy, dealing " + PrintColor.Red((getAtk() * 215 / 100) + " (215% ATK) physic damage")
+        s2_des =  "Attack an enemy, dealing " + PrintColor.Red((getAtk() * 215 / 100) + " (215% ATK) physic damage")
                 + ".\n" + gap_S2 + "According to the number of \"Divine Blades\" currently have, commands them to perform one of these following attack:";
         for (byte i = 0; i < 3; ++i) {
             if (i == BladeSeed) s2_des += '\n' + gap_S2 + "- " + PrintColor.BRed(cusName[i]) + ": " + cusEff[i];

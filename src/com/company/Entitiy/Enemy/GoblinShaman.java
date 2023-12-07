@@ -16,7 +16,7 @@ public class GoblinShaman extends Enemy {
             setDef((short) 200);
             setRes((short) 600);
             setAp((short) 550);
-            setAtk((short) 0);
+            setAtk((short) 50);
         } else {
             setName("Senior Goblin Shaman");
             setTrait("A special goblin that has fully master their Art, greatly adds up to their destructive power. " +
@@ -46,7 +46,7 @@ public class GoblinShaman extends Enemy {
             setDef((short) 200);
             setRes((short) 600);
             setAp((short) 550);
-            setAtk((short) 0);
+            setAtk((short) 50);
         } else {
             setName("Senior Goblin Shaman");
             setTrait("A special goblin that has fully master their Art, greatly adds up to their destructive power. " +

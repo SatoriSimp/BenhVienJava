@@ -1,0 +1,313 @@
+/* Place your CSS styles in this file */
+
+html {
+    background-image: url("../img/hina-faded.png");
+    background-size:cover;
+}
+
+body {
+	cursor: url('../img/dorito_default.cur'), auto;
+}
+
+button:hover {
+	cursor: url('../img/dorito_points.cur'), auto;
+}
+
+button:disabled {
+	cursor: url('../img/dorito_banned.cur'), auto;
+}
+
+p {
+    color: #E8E6E3;
+    padding-top: 1px;
+}
+
+li {
+    color: #E8E6E3;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+}
+
+ul, li {
+    list-style: none;
+}
+
+@font-face {
+	font-family: titleFont;
+	src: url('../sigmarone.ttf');
+}
+
+.hidden_textbox {
+    background: rgb(0, 0, 0);
+    border-radius: 5px;
+    color:rgba(255, 242, 0, 0.823);
+    border: 2px solid red;
+    font-size: 18px;
+    font-style: normal;
+    font-family: tahoma;
+    margin-top: 1%;
+    width: 35%;
+    height: fit-content;
+    padding: 1%;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 1s, opacity 1s ease-in-out;
+    display: block;
+    float: right;
+    margin-right: 10%;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+}
+
+.stand-border {
+    position: relative;
+    border-radius: 25px;
+    border: 10px solid transparent;
+    border-image: url("../img/bord.jpg") 30 round;
+    height: 72vh;
+    background-image: url("../img/dg2.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -o-backgroud-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    font-weight: normal;
+    margin: 3%;
+    padding-left: 1%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+    text-decoration: wavy;
+    text-rendering: auto;
+    text-align: left;
+}
+
+.vertical-center {
+    display:block;
+    margin: 0 auto;
+    left: 27%;
+    position: absolute;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#dmg-chart2 {
+    border-collapse:collapse;
+}
+
+input {
+    background: none;
+    color:white;
+    border: 2px coral solid;
+    border-radius: 5px;
+    padding: 1% 3% 1% 1%;
+    margin: 2% 0;
+	font-size: 16px;
+}
+
+input:focus {
+    color: rgb(255, 191, 0);
+}
+
+#dmg-chart2 th {
+    white-space: nowrap;
+}
+
+#dmg-chart2 th button {
+    border: 1px yellow solid;
+    border-radius: 5px;
+    background: black;
+    padding: 3px 4px;
+}
+
+th:nth-child(2) button {
+    color: rgb(0, 255, 68);
+}
+
+th:nth-child(3) button {
+    color: red;
+}
+
+th:nth-child(4) button {
+    color: rgb(247, 0, 255);
+}
+
+th:nth-child(5) button {
+    color: rgb(255, 242, 0);
+}
+
+th:nth-child(6) button {
+    color: rgb(0, 217, 255);
+}
+
+
+  #dmg-chart2 th, #dmg-chart2 td {
+    border: rgba(255, 255, 0, 0.33) 1px solid;
+	padding: 10px;
+  }
+
+#dmg-chart2 th {
+    color: rgb(255, 230, 0);
+    background-color: rgba(232, 230, 227, 0.273);
+}
+
+  #dmg-chart2 > tbody > tr > td:first-child {
+    color: white;
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(2) {
+    color: rgb(66, 255, 69)
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(3) {
+    color: rgb(255, 9, 9);
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(4) {
+    color: rgb(243, 9, 255);
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(5) {
+    color: rgb(255, 230, 9);
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(6) {
+    color: rgb(9, 230, 255);
+  }
+
+  #dmg-chart2 > tbody > tr > td:nth-child(7) {
+    font-size: 15px;
+    text-align: left;
+    color: rgb(168, 168, 168);
+  }
+
+ #tables {
+    float:left;
+    border-image: url('../img/bord.jpg') 30px round;
+    border-radius: 10px;
+    width: 20%;
+ }
+
+ #contents {
+    width: 90%;
+    display: inline-table;
+    justify-content: first baseline;
+}
+
+#contents > .hidden_textbox {
+    display:none;
+    border: none;
+    background: none;
+    width: 90%;
+    text-align: left;
+    visibility: visible;
+    opacity: 1;
+}
+
+ #tables, #contents {
+    display: inline;
+ }
+ 
+li > ul {
+    line-height: 180%;
+}
+
+li > button, .title > button {
+    display:contents;
+    font-size:18px;
+    color:rgb(52, 201, 255);
+    font-family: Tahoma;
+}
+ 
+li > button:hover, .title > button:hover {
+    color:yellow;
+    font-weight: bold;
+}
+
+li > button:active, .title > button:active {
+    color:rgb(255, 166, 0);
+    font-weight: bold;
+}
+
+li > button:disabled {
+    color:rgb(255, 255, 49);
+    font-weight: normal;
+}
+
+.title > button:disabled {
+    color:rgb(255, 255, 49) !important;
+}
+
+.title {
+    padding: 1.2%;
+    font-size: 28px;
+    font-weight:700;
+    background: -webkit-linear-gradient(rgb(220, 220, 220), rgb(164, 164, 164));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title > button {
+    padding: 1.2%;
+    font-size: 28px;
+    font-weight: 700;
+    color: cyan;
+}
+
+vl {
+    margin-right: 10%;
+    min-width: 82%;
+    border: 3px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to bottom, transparent, #ff75ea, #ff0000, #fbff00, #008cff, transparent);
+    background: none;
+    height: fit-content;
+    min-height: 100vh;
+    position: absolute;
+    margin-top: -2%;
+    padding-left: 3%;
+}
+
+.elite img {
+    width: 42px;
+    height: 40px;
+    border: none;
+}
+
+.elite > div {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.filterBox {
+    float: right;
+    border: 3px rgb(190, 155, 1) solid;
+    padding: 0;
+}
+
+.filterBox button {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: rgb(255, 0, 0);
+    border: none;
+    padding: 5px 20px;
+    font-family: 'Sigmar One';
+    font-size: 18px;
+}
+
+.filterBox button:hover {
+    background-color: rgba(190, 155, 1, 0.175);
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

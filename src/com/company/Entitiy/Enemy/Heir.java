@@ -32,8 +32,8 @@ public class Heir extends Enemy {
             setReduction((short) 80);
         }
         ap_up = 20;
-        healing = 1.9f;
-        convert = 0.55f;
+        healing = 1.7f;
+        convert = 0.5f;
         setSkill(PrintColor.BRed("Bloodbath")
                 + ": Reduces damage taken, attack hits all allies and heals self for a percentage of damage dealt. " +
                 "A portion of exceeded healing " + PrintColor.Green("is converted to max health") + ".\n"
@@ -60,13 +60,13 @@ public class Heir extends Enemy {
             setMaxHealth(2300);
             setDef((short) 0);
             setRes((short) 400);
-            setAp((short) 250);
+            setAp((short) 240);
             setAtk((short) 0);
             setReduction((short) 80);
         }
         ap_up = 20;
-        healing = 1.9f;
-        convert = 0.55f;
+        healing = 1.7f;
+        convert = 0.5f;
         setSkill(PrintColor.BRed("Bloodbath")
                 + ": Reduces damage taken, attack hits all allies and heals self for a percentage of damage dealt. " +
                 "A portion of exceeded healing " + PrintColor.Green("is converted to max health") + ".\n"
@@ -85,7 +85,8 @@ public class Heir extends Enemy {
                 if (this.getMissingHealth() < restore) {
                     setMaxHealth((int) ((restore - getMissingHealth()) * convert + getMaxHealth()));
                     addAp(ap_up);
-                } else healing(restore);
+                }
+                else healing(restore);
             }
         });
     }
@@ -94,7 +95,7 @@ public class Heir extends Enemy {
     public void setChallengeMode() {
         ChallengeModeStatsUp();
         skill += "The max-health convert ratio and ap gain are increased.";
-        convert += 0.15f;
+        convert += 0.25f;
         ap_up += 15;
     }
 }

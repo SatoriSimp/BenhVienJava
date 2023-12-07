@@ -75,5 +75,6 @@ public class Eradicator extends Enemy {
         ChallengeModeStatsUp();
         skill += "Requires 2 more attacks to remove stealth.";
         atkcntMX += 2;
+        atkUp += 0.03f;
     }
 }

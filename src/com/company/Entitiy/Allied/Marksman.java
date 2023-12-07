@@ -18,13 +18,13 @@ public class Marksman extends Soldier {
         tar_2 = true;
         cost_1 = 0;
         cost_2 = 3;
-        critDmg = 170;
+        critDmg = 190;
         baseCrit = 50;
-        hp = 2150;
-        atk = 630;
+        hp = 2100;
+        atk = 620;
         ap = 0;
-        defpen = 10;
-        def = 240;
+        defpen = 15;
+        def = 230;
         res = 50;
         atkScale = 6.5f;
         setMaxHealth(hp);

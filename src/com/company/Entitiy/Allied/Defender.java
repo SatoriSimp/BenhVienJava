@@ -13,6 +13,7 @@ public class Defender extends Soldier {
 
     public Defender() {
         setName("Defender");
+        shortDes = "Sacrificing damage in exchange for high durability";
         tar_1 = false;
         tar_2 = false;
         cost_1 = 2;

@@ -30,7 +30,7 @@ public class Ya extends Enemy {
                 + ". Immediately summons a " + PrintColor.BYellow("Delusion") + " that can use most of Ya's abilities. Gains greatly increased "
                 + PrintColor.Yellow("DEF") + " and " + PrintColor.Cyan("RES") + " while Delusion is present.");
         setMaxHealth(25000);
-        setDef((short) 600);
+        setDef((short) 500);
         setRes((short) 500);
         setAtk((short) 800);
         setAp((short) 0);
@@ -57,8 +57,8 @@ public class Ya extends Enemy {
         else {
             setName("Delusion");
             setTrait("Old wounds fester in suspicion and anger. Infinite seasons, finite lifespan, and It has returned home.");
-            setMaxHealth(23000);
-            setDef((short) 600);
+            setMaxHealth(22000);
+            setDef((short) 500);
             setRes((short) 500);
             setAtk((short) 900);
             highSummon = true;

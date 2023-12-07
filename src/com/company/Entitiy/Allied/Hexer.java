@@ -11,6 +11,7 @@ public class Hexer extends Soldier {
 
     public Hexer() {
         setName("Hexxer");
+        shortDes = "Excels in applying various debuffs to the enemies.";
         tar_1 = true;
         tar_2 = true;
         cost_1 = 2;
@@ -33,8 +34,8 @@ public class Hexer extends Soldier {
     public void writeKit() {
         talents = PrintColor.BPurple("Thresher") + ": Attacks deal " + PrintColor.Purple("additional magic damage equals to 15% of the target's current HP")
                     + ", up to a maximum of " + PrintColor.Purple((getAp() * 19 / 10) + " (190% AP) magic damage") + ".\n" + gap_T
-                + PrintColor.BBlue("Rhythm of Victory") + ": Dealing damage to an enemy with less than " + PrintColor.Green("40% max HP")
-                    + " inflicts " + PrintColor.Blue("20% 'Fragile'") + " on them, lasts 2 turns.";
+                + PrintColor.BBlue("Rhythm of Victory") + ": Dealing damage to an enemy with less than " + PrintColor.Green("50% max HP")
+                    + " inflicts " + PrintColor.Blue("30% 'Fragile'") + " on them, lasts 2 turns.";
         s1_name = PrintColor.BBlue("Harsh Deterrence");
         s1_des = "Strikes an enemy, dealing " + PrintColor.Purple((getAp() * 19 / 10) + " (190% AP) magic damage")
                 + " and reduces their " + PrintColor.Yellow("DEF") + " and "+ PrintColor.Cyan("RES")
@@ -83,6 +84,6 @@ public class Hexer extends Soldier {
     }
 
     public void applyTalent(Entity target) {
-        if (target.getHealth() <= target.getMaxHealth() * 0.4) target.fragile.setValue((short) 20, (short) 3);
+        if (target.getHealth() <= target.getMaxHealth() * 0.5) target.fragile.setValue((short) 30, (short) 3);
     }
 }

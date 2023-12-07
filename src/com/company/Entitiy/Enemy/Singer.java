@@ -56,7 +56,7 @@ public class Singer extends Enemy {
             int dmg = getAp();
             if (!target.fragile.inEffect()) {
                 target.fragile.setValue(fragileStrg, (short) 3);
-                dmg += getAp() * 0.4f;
+                dmg += getAp() * 0.6f;
             } else {
                 target.fragile.setValue((short) (Math.max(target.fragile.getValue() + fragileStrg * 0.5f, fragileStrg * 1.5f)), (short) 3);
             }
@@ -74,7 +74,7 @@ public class Singer extends Enemy {
                 int dmg = getAp();
                 if (!tr.fragile.inEffect()) {
                     tr.fragile.setValue(fragileStrg, (short) 3);
-                    dmg += getAp() * 0.6f;
+                    dmg += getAp() * 1.0f;
                 } else {
                     tr.fragile.setValue((short) (Math.max(tr.fragile.getValue() + fragileStrg * 0.5f, fragileStrg * 1.5f)), (short) 3);
                 }
@@ -104,6 +104,7 @@ public class Singer extends Enemy {
             setResPen((short) 60);
             healScale *= 0.8f;
         }
+        super.preTurnPreparation();
     }
 
     public int getHeal() {

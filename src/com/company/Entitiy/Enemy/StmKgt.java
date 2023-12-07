@@ -8,6 +8,7 @@ import com.company.Wait;
 public class StmKgt extends Enemy {
     private short skillCost = 4;
     private short defReduce, skillScale;
+    public boolean special = false;
 
     public StmKgt() {
         setMaxHealth(18000);
@@ -59,27 +60,30 @@ public class StmKgt extends Enemy {
         this.mana -= skillCost;
         addDefIgn((short) 50);
         int baseDmg = getAtk() * skillScale / 100;
-        final byte hits = (byte) (isCanRevive() ? 4 : 6);
+        byte hits = (byte) (isCanRevive() ? 4 : 6);
+        if (special) hits++;
         for (byte i = 0; i < hits; ++i) {
+            int mbonus = special ? (int) (getAtk() * 0.15) : 0;
             if (!EntitiesList.Players_isAlive()) {
                 addDefIgn((short) -50);
                 return;
             }
             Entity tar = targetSearch(HIGHEST_HP_PERCENTAGE);
-            dealingDamage(tar, damageOutput(baseDmg, 0, tar), "Unto One's Death", PrintColor.red);
+            dealingDamage(tar, damageOutput(baseDmg, 0, mbonus, tar), "Unto One's Death", PrintColor.red);
             Wait.sleep(1000);
         }
         addDefIgn((short)-50);
-        if (!challengeMode) this.fragile.setValue((short)40, (short)2);
+        if (!challengeMode) this.fragile.setValue((short) 40, (short)2);
+        if (special) setShield((short) Math.max(getShield(), 3));
     }
 
     @Override
     public void revive() {
         super.revive();
         setMaxHealth(getMaxHealth());
-        setDef((short) (getBaseDef() * 0.3f));
+        setDef((short) (getBaseDef() * 0.35f));
         addAtk((short) (getBaseAtk() * 0.15f));
-        setShield((short)4);
+        setShield((short) 4);
         mana = 3;
         skillCost = 3;
         skillScale = 110;

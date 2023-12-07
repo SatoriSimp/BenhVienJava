@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EntitiesList {
     public static ArrayList<Enemy> EnList = new ArrayList<Enemy>();
@@ -80,19 +81,19 @@ public class EntitiesList {
         AtomicInteger summon_mirage_V1 = new AtomicInteger(0);
         AtomicBoolean summon_mirage_V2 = new AtomicBoolean();
         AtomicInteger summon_awaken = new AtomicInteger();
-        AtomicInteger getShifterSeed = new AtomicInteger(0);
+        AtomicReference<Shapeshifter> s = new AtomicReference<>();
         EnList.forEach(en -> {
             if ((!en.isAlive() || (en instanceof  Awakening && ((Awakening) en).hibernating > 0 && ((Awakening) en).hiber)) && en.isCanRevive()) {
                 en.revive();
-                if (en instanceof Shapeshifter && (((Shapeshifter) en).shapeSeed == 3 || ((Shapeshifter) en).shapeSeed == 5)) {
-                    getShifterSeed.set(((Shapeshifter) en).shapeSeed);
+                if (en instanceof Shapeshifter) {
+                    s.set((Shapeshifter) en);
                 }
             }
             en.fadeoutEffects();
             en.defBuff.refresh();
             if (en.isAlive()) en.naturalRecovery();
             if (en instanceof Awakening && ((Awakening) en).summon >= 4) {
-                System.out.println(PrintColor.BRed("\nSummoned new Dors!"));
+                System.out.println(PrintColor.BRed("\nSummoned new AWKs!"));
                 summon_awaken.set(2);
                 if (((Awakening) en).summon == 99) {
                     summon_awaken.set(5);
@@ -113,8 +114,9 @@ public class EntitiesList {
         });
         EnList.removeIf(e -> !e.isAlive() && e.isSummon);
 
-        if (getShifterSeed.shortValue() != 0) {
-            EnList.add(new Shapeshifter(getShifterSeed.shortValue()));
+        if (s.get() != null) {
+            EnList.add(s.get());
+            s.get().setReduction((short) (s.get().getReduction() + 20));
         }
         if (summon_mirage_V1.get() != 0) {
             EnList.add(new Ya(summon_mirage_V1.shortValue(), summon_mirage_V2.get()));

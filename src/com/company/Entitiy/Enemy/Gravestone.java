@@ -31,18 +31,18 @@ public class Gravestone extends Enemy {
     public void normalAttack(Entity target) {
         target = getTaunt(target);
         ++mana;
-        final int[] pMissing = {target.getMissingHealth() * 100 / target.getMaxHealth()};
-        final int[] extra = {(int) (getAtk() * 0.0295f * pMissing[0])};
-        if (pMissing[0] > 50) {
-            extra[0] = (int) (extra[0] * 1.35);
+        final int pMissing = target.getMissingHealth() * 100 / target.getMaxHealth();
+        int extra = (int) (getAtk() * 0.0295f * pMissing);
+        if (pMissing > 50) {
+            extra = (int) (extra * 1.35);
         }
-        normalAttack(target, damageOutput(getAtk() + extra[0], getAp(), target));
-        if (pMissing[0] > 50) target.setHealingreduction((short) 50, (short) 2);
+        normalAttack(target, damageOutput(getAtk() + extra, getAp(), target));
+        if (pMissing > 50) target.setHealingreduction((short) 50, (short) 2);
         target.silence.extend((short) 3);
         short ATK_debuff = (short) (cm ? 60 : 35);
         target.atkDebuff.initialize(ATK_debuff, (short) 2);
 
-        if (mana == 3) {
+        if (mana >= 3) {
             System.out.println(PrintColor.BRed("Let's make this quick!"));
             SoList.forEach(so -> {
                if (so.isAlive() && (so.silence.inEffect() || so.atkDebuff.inEffect())) {

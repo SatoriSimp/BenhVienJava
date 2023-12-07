@@ -14,13 +14,13 @@ public class Qual extends Enemy {
     private boolean spell_not_charged = true;
     private final Stack<Integer> Spells = new Stack<>();
     private final String[] SpellName = {
-            PrintColor.BRed("Bσɳ Sƚɾιƈαɾҽ"),
-            PrintColor.BPurple("Vαƈԋҽ Aɾԋιƚҽ"),
-            PrintColor.BBlue("Exυʂƈԋɯι Mαια"),
-            PrintColor.BGreen("Gυʂԋɳαɾια Aɾƈԋҽ"),
-            PrintColor.black + "Soul Track" + PrintColor.def,
-            PrintColor.BYellow("Lυɳҽ Aԃιɾҽƈƚα"),
-            PrintColor.BRed("Lυɳҽ Eʂƈԋҽɾιƈԋια"),
+            PrintColor.BRed("Bon Sirlcare"),
+            PrintColor.BPurple("Vache Arhile"),
+            PrintColor.BBlue("Exuschwl Maia"),
+            PrintColor.BGreen("Gushnaria Arche"),
+            PrintColor.black + "Todestrieb" + PrintColor.def,
+            PrintColor.BYellow("Lune Adirecla"),
+            PrintColor.BRed("Lune Escherichla"),
     };
 
     public Qual() {
@@ -43,13 +43,14 @@ public class Qual extends Enemy {
                 "Immediately deals " + PrintColor.Purple("magic damage") + " to all allied units while " + PrintColor.Green("heals self and creates 'Shields' bases on the number of targets hit") + ".\n"
             + PrintColor.WHITE_BOLD + "???" + PrintColor.def + ": it seems that he's holding back on you...");
         setMaxHealth(30000);
-        setAtk((short) 300);
+        setAtk((short) 200);
         setAp((short) 1000);
         setDef((short) 400);
         setRes((short) 1000);
         setReduction((short) 40);
         setResPen((short) 15);
         canCC = false;
+        canRevive = true;
         isElite = true;
         ArrayList<Integer> list = new ArrayList<>();
         Collections.addAll(list, 1, 2, 3, 4);

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -35,6 +36,8 @@ public class menu {
             ArrayList<String> disEnList = new ArrayList<>();
             Collections.addAll(disEnList,
                     "No enemy",
+                    "Practice Dummy",
+                    "Bewitched Dummy",
                     "Goblin Shaman / Senior Shaman",
                     "Zombified Orc / Prefect Zombified Orc",
                     "Vengeful Spirit / Hateful Spirit",
@@ -66,60 +69,66 @@ public class menu {
                 Enemy pick;
                 switch (Input.Shrt("enemy's ID", (short) 0, (short) (disEnList.size() - 1))) {
                     case 1:
-                        pick = new GoblinShaman();
+                        pick = new Dummy();
                         break;
                     case 2:
-                        pick = new ZombifiedOrc();
+                        pick = new BDummy();
                         break;
                     case 3:
-                        pick = new Spirit();
+                        pick = new GoblinShaman();
                         break;
                     case 4:
-                        pick = new Reaper();
+                        pick = new ZombifiedOrc();
                         break;
                     case 5:
-                        pick = new EnThrow();
+                        pick = new Spirit();
                         break;
                     case 6:
-                        pick = new Slug();
+                        pick = new Reaper();
                         break;
                     case 7:
-                        pick = new VenomSpider();
+                        pick = new EnThrow();
                         break;
                     case 8:
-                        pick = new Gift();
+                        pick = new Slug();
                         break;
                     case 9:
-                        pick = new Heir();
+                        pick = new VenomSpider();
                         break;
                     case 10:
-                        pick = new Rotchaser();
+                        pick = new Gift();
                         break;
                     case 11:
-                        pick = new Eradicator();
+                        pick = new Heir();
                         break;
                     case 12:
-                        pick = new Avenger();
+                        pick = new Rotchaser();
                         break;
                     case 13:
-                            pick = new Singer();
-                            break;
+                        pick = new Eradicator();
+                        break;
                     case 14:
-                        pick = new PosSwrd();
+                        pick = new Avenger();
                         break;
                     case 15:
-                        pick = new StmKgt();
+                        pick = new Singer();
                         break;
                     case 16:
-                        pick = new EB();
+                        pick = new PosSwrd();
                         break;
                     case 17:
-                        pick = new TFO();
+                        pick = new StmKgt();
                         break;
                     case 18:
-                        pick = new Awakening();
+                        pick = new EB();
                         break;
                     case 19:
+                        pick = new TFO();
+                        break;
+                    case 20:
+                        pick = new Awakening();
+                        break;
+                    case 21:
                         pick = new Ya();
                         break;
                     default:
@@ -141,8 +150,9 @@ public class menu {
                     "\"Athanasios\"",
                     "Cover Your Wounds",
                     "After Dark",
+                    "Ancient Formation",
                     "All Quite under the Thunder",
-                    "'As the Empire's Shadow'",
+                    "A Feat of Patriotic",
                     "Survive on Cliff",
                     "Ei Magia"
             };
@@ -155,11 +165,10 @@ public class menu {
                     "Well this is no good...",
                     "They overwhelm you and can sense you at your most disadvantages.\nBut even so, you have to fight back.",
                     "The path leads to home does not always feel the same. Especially when someone's lurking in that dark corner...",
-                    "It's a mere slug, moreover, an already weakened one.",
-                    "The Emperor's Blades are an elite unit within the Royal Guards, they are the elite among the elites.\n" +
-                        "As the name suggests, they directly answer to the Emperor and carry out \"the will of His Majesty himself\" with extreme prejudice.\n" +
-                        "One alone is enough to slaughter an entire squad, defeat has never been a possibility.\n" +
-                        "Very few people know about their existence, and even less people, knowing that they are at their strongest when fighting in group.",
+                    "An ancient battlefield preserved in some arenas. Wishing to re-enact the competitive battles of the ancient knights, the opponents are monsters of desire and urbanity." +
+                            "\nGlory, glory ceased to exist long ago.",
+                    "The thunder is silent, the long night is dark, but our homeland's glory must stand eternal.",
+                    "The will in these ruins is still not fallen - shall not be surmounted - cannot be exhausted - will do nothing but last forever.",
                     "To take down the target, you have to aim. Not there, but there.",
                     "If you lose, don't sweat it. You were never supposed to win this fight in the first place, after all."
             };
@@ -172,7 +181,7 @@ public class menu {
             int packageChoice = Input.Int("your choice", 1, packages.length);
             System.out.println('\n' + PrintColor.BRed(packages[packageChoice - 1]) + " chosen!");
             System.out.println(PrintColor.Blue(des[packageChoice - 1]) + '\n');
-            Wait.sleep(2000);
+            Wait.sleep(3500);
             switch(packageChoice) {
                 case 1:
                     System.out.println("Enemies selected: " + PrintColor.BYellow("The Avenger")
@@ -205,12 +214,12 @@ public class menu {
                             + PrintColor.Red("\nConditions: Goblin Shaman has greatly increased AP, and there will be an additional \"Twig of the Sanguinaria\""));
                     GoblinShaman gb = new GoblinShaman((short) 0);
                     gb.setAp((short) (gb.getBaseAp() * 2.1));
-                    Collections.addAll(EnList, gb, new Heir((short) 0), new VenomSpider(), new Sanguinaria());
+                    Collections.addAll(EnList, gb, new Heir((short) 0), new VenomSpider(), new Sanguinaria((byte) 2));
                     break;
                 case 4:
                     System.out.println("Enemies selected: " + PrintColor.BYellow("Zombified Orc" + " * 3")
                             + PrintColor.Red("\nConditions: All Zombified Orc has greatly reduced HP, DEF and RES, and are unable to attack. A large number of \"Twigs of the Sanguinaria\" will appear."));
-                    Collections.addAll(EnList, new ZombifiedOrc(), new ZombifiedOrc(), new ZombifiedOrc(), new Sanguinaria(), new Sanguinaria(), new Sanguinaria());
+                    Collections.addAll(EnList, new ZombifiedOrc(), new ZombifiedOrc(), new ZombifiedOrc(), new Sanguinaria(), new Sanguinaria((byte) 2), new Sanguinaria());
                     EnList.forEach(en -> {
                         if (en instanceof ZombifiedOrc) {
                             en.isDisarmed = true;
@@ -258,38 +267,35 @@ public class menu {
                     Collections.addAll(EnList, gst);
                     break;
                 case 9:
-                    System.out.println("Enemy selected: " + PrintColor.BYellow("Nourished Infused Slug")
-                            + PrintColor.Red("\nConditions: \"Nourished Infused Slug\" stats gain is significantly decreased, more friendly units can be brought into this mission."));
+                    System.out.println("Enemy selected: " + PrintColor.BYellow("Phalanx Spirit-clever / Phalanx Shadowiest Mage / Phalanx Renowned Frontliner"));
+                    Collections.addAll(EnList, new PlxClever(), new PlxCaster(), new PlxPioneer(), new Mist());
+                    break;
+                case 10:
+                    System.out.println("Enemy selected: " + PrintColor.BYellow("Shapeshifter")
+                            + PrintColor.Red("\nConditions: More friendly units can be brought into this mission."));
                     EnList.add(new Shapeshifter());
                     specialCombatEnv = 9;
                     break;
-                case 10:
-                    System.out.println("Enemy selected: " + PrintColor.BRed("Emperor's Blade") + " / " + PrintColor.BRed("Emperor's Blade")
-                            + PrintColor.Red("\nConditions: All friendly units have increased HP and DEF, and are granted 1 layer of 'Shield'"));
-                    EnThrow e = new EnThrow();
-                    e.setName("Mutant Enraged Possessed Bonethrower");
-                    e.setMaxHealth(18000);
-                    e.setAtk((short) 20000);
-                    e.setDefPen((short) 100);
-                    e.setDef((short) 9999);
-                    e.setRes((short) 9999);
-                    EB eb1 = new EB();
-                    EB eb2 = new EB();
-                    eb1.special = true;
-                    eb2.special = true;
-                    e.fragile.setValue((short) 1, (short) 100);
-                    Collections.addAll(EnList, eb1, eb2, e);
+                case 11:
+                    System.out.println("Enemy selected: " + PrintColor.BYellow("The Last Steam Knight")
+                            + PrintColor.Red("\nConditions: The Last Steam Knight has increased RES. \"Unto One's Death\" can launch an additional hit in both phases and each hit deals bonus true damage. " +
+                            "\"Armament of Annihilation\" will be refreshed whenever \"Unto One's Death\" is used, but with reduced shields count."));
+                    StmKgt stm = new StmKgt();
+                    stm.setAtk((short) (stm.getBaseAtk() * 1.15));
+                    stm.setRes((short) (stm.getBaseRes() + 200));
+                    stm.special = true;
+                    Collections.addAll(EnList, stm);
                     specialCombatEnv = 10;
                     break;
-                case 11:
+                case 12:
                     System.out.println("Enemy selected: " + PrintColor.BRed("\"Bridge Clip\" Cliff")
                             + PrintColor.Red("\nCondition: The \"Heat Waves Spout\" is present."));
                     EnList.add(new Cliff());
                     EnList.add(new Heatwave());
                     break;
-                case 12:
+                case 13:
                     System.out.println("Enemy selected: " + PrintColor.BRed("Qual")
-                        + PrintColor.Red("\nConditions: All friendly units have increased RES and gain natural HP recovery."));
+                        + PrintColor.Red("\nConditions: More friendly units can be brought into this battle. All friendly units have increased RES and gain natural HP recovery."));
                     EnList.add(new Qual());
                     specialCombatEnv = 12;
                     break;
@@ -299,15 +305,14 @@ public class menu {
         ArrayList<Soldier> list = new ArrayList<>();
         //Champ select
         Collections.addAll(list, new Fighter(), new Defender(), new Marksman(), new Caster(), new Swordsman(),
-                new Medic(), new Saigyouji(), new Artificer(), new Pathfinder(), new Hexer());
+                new Medic(), new Saigyouji(), new Artificer(), new Pathfinder(), new Hexer(), new Flincher());
 
-        final int unitLim = specialCombatEnv != 9 ? 3 : 4;
+        final int unitLim = (specialCombatEnv == 9 || specialCombatEnv == 12) ? 4 : 3;
         for (int i = 0; i < unitLim; ++i) {
             System.out.println(PrintColor.Byellow + "Choose unit's class:");
             AtomicReference<Short> order = new AtomicReference<>((short) 1);
             list.forEach(so -> {
                 System.out.print(PrintColor.purple + order.get() + ". " + so.getName() + ": " + PrintColor.def + so.shortDes);
-                if (SoList.contains(so)) System.out.print(PrintColor.BRed("      [Selected]"));
                 System.out.println();
                 order.set((short) (order.get() + 1));
             });
@@ -315,7 +320,46 @@ public class menu {
             System.out.print(PrintColor.WHITE_BOLD);
             short choice = Input.Shrt((short) 0, (short) (order.get() - 1));
             if (choice != 0) {
-                SoList.add(list.get(choice - 1));
+                Soldier s;
+                switch (choice) {
+                    case 1:
+                        s = new Fighter();
+                        break;
+                    case 2:
+                        s = new Defender();
+                        break;
+                    case 3:
+                        s = new Marksman();
+                        break;
+                    case 4:
+                        s = new Caster();
+                        break;
+                    case 5:
+                        s = new Swordsman();
+                        break;
+                    case 6:
+                        s = new Medic();
+                        break;
+                    case 7:
+                        s = new Saigyouji();
+                        break;
+                    case 8:
+                        s = new Artificer();
+                        break;
+                    case 9:
+                        s = new Pathfinder();
+                        break;
+                    case 10:
+                        s = new Hexer();
+                        break;
+                    case 11:
+                        s = new Flincher();
+                        break;
+                    default:
+                        s = null;
+                        break;
+                }
+                SoList.add(s);
             }
         }
 
@@ -328,13 +372,6 @@ public class menu {
                     so.bleed.initialize((short) (so.getMaxHealth() * 0.085f), (short) 100, null);
                 });
                 break;
-            case 10:
-                SoList.forEach(so -> {
-                    so.setMaxHealth(so.getMaxHealth() + 600);
-                    so.setDef((short) (so.getBaseDef() + 200));
-                    so.setShield((short) (so.getShield() + 1));
-                });
-                break;
             case 12:
                 SoList.forEach(so -> {
                     so.setRes((short) (so.getBaseRes() + 300));
@@ -343,8 +380,21 @@ public class menu {
                 break;
         }
 
-        System.out.println("Choose battle mode:" + "\n1. Normal mode" + PrintColor.Yellow("\n2. Challenge Mode") + PrintColor.Red("\n3. Tribulation Mode"));
-        switch (Input.Shrt((short) 1, (short) 3)) {
+        System.out.println("Choose battle mode:" + "\n0. Experimental mode" + PrintColor.def + "\n1. Normal mode" + PrintColor.Yellow("\n2. Challenge Mode") + PrintColor.Red("\n3. Tribulation Mode"));
+        switch (Input.Shrt((short) 0, (short) 3)) {
+            case 0:
+                System.out.println("Experimental mode selected!\nFriendlies have greatly increased base stats during this mode.");
+                SoList.forEach(so -> {
+                    if (so != null) {
+                        so.setMaxHealth((int) (so.getMaxHealth() * 1.5f + 1000));
+                        so.setAtk((short) (so.getBaseAtk() * 1.5f + 100));
+                        so.setAp((short) (so.getBaseAp() * 1.5f + 100));
+                        so.setDef((short) (so.getBaseDef() + 400));
+                        so.setRes((short) (so.getBaseRes() + 400));
+                        so.mana += 6;
+                    }
+                });
+                break;
             case 2:
                 System.out.println("Challenge Mode selected!");
                 EnList.forEach(en -> {
@@ -380,9 +430,9 @@ public class menu {
                 "Hazard Environment - Toxicity Cloud I",
                 "Hazard Environment - Toxicity Cloud II",
                 "Hazard Environment - Toxicity Cloud III",
-                "Precipitous Area - Sanguinary Forest I",
-                "Precipitous Area - Sanguinary Forest II",
-                "Precipitous Area - Sanguinary Forest III"
+                "Objective - Reborn Anew I",
+                "Objective - Reborn Anew II",
+                "Objective - Reborn Anew III"
         };
         String[] effect = {
                 "All friendly units have -15% ATK",
@@ -540,21 +590,16 @@ public class menu {
                     break;
                 case 20: case 21: case 22:
                     final short dmg = (short) (100 + 125 * (risk - 20));
-                    SoList.forEach(so -> {
-                        so.poison.initialize(dmg, (short) 1000, new Enemy() {
-                            @Override
-                            public void setChallengeMode() {
-
-                            }
-                        });
-                    });
+                    SoList.forEach(so ->
+                        so.poison.initialize(dmg, (short) 1000, null)
+                    );
                     break;
                 case 23: case 24: case 25:
                     EnList.add(new Sanguinaria());
-                    if (risk >= 24) EnList.add(new Sanguinaria());
+                    if (risk >= 24) EnList.add(new Sanguinaria((byte) 2));
                     if (risk >= 25) {
                         EnList.add(new Sanguinaria());
-                        EnList.add(new Sanguinaria());
+                        EnList.add(new Sanguinaria((byte) 2));
                     }
                     break;
             }
@@ -573,7 +618,7 @@ public class menu {
 
     public static void mainMenu() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         try {
-            playSound("ost\\Quench.wav");
+            playSound("ost\\boil.wav");
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
         }
@@ -632,8 +677,12 @@ public class menu {
                     quote = "The calming sky foresees no good...";
                 }
                 else if (e instanceof TFO) {
-                    theme = "D:\\C++ storage\\ABetterGems\\nicho5\\Debug\\ost\\sacrifice";
+                    theme = ".\\ost\\sacrifice";
                     quote = "As for one shall cleanse their sins...";
+                }
+                else if (e instanceof PlxCaster) {
+                    theme = e.challengeMode ? ".\\ost\\plxsqd_vo" : ".\\ost\\plxsqd";
+                    quote = "The sky is dyed black!";
                 }
                 else {
                     theme = "D:\\C++ storage\\ABetterGems\\nicho5\\Debug\\ost\\lostmemory";

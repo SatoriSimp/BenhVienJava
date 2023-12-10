@@ -108,7 +108,7 @@ public class EntitiesList {
                     summon_mirage_V1.set(666);
                     ((Ya) en).delSpawn = false;
                 }
-                summon_mirage_V2.set(((Ya) en).challengeMode);
+                summon_mirage_V2.set(en.challengeMode);
                 ((Ya) en).manaClone -= ((Ya) en).cloneSpawn;
             }
         });

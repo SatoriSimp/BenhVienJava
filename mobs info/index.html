@@ -44,7 +44,7 @@
                         <div class="setting">
                               <input id="searchInput" onkeyup="find(event)" name="search" type="text" placeholder="Search enemy by name..."/>
                               <div class="filterBox">
-                              <button id="filter" type="button" onclick="eliteFilter()" />Elites only</button>
+                              <button id="filter" type="button" onclick="eliteFilter()">Elites only</button>
                               </div>
                         </div>
                         <table id="dmg-chart2" style="width: 100%; text-align: center; border: yellow 2px solid;">
@@ -410,6 +410,22 @@
                                           </td>
                                     </tr>
                                     <tr>
+                                          <td>Black Mist</td>
+                                          <td>100000</td>
+                                          <td>0</td>
+                                          <td>700</td>
+                                          <td>9999</td>
+                                          <td>9999</td>
+                                          <td>
+                                                - Has 60% RES penetration.<br>
+                                                - Has 100% physic and art damage reduction.<br>
+                                                - Permanently "Invisible".<br>
+                                                - Immune to crowd-control effects.<br>
+                                                - Attack targets the friendly unit with lowest current health.<br>
+                                                - Can only be summoned by "Phalanx Shadowiest Mage", and will be defeated as soon as "Phalanx Shadowiest Mage" is defeated.
+                                          </td>
+                                    </tr>
+                                    <tr>
                                           <td>Twigs of the Sanguinaria</td>
                                           <td>12500</td>
                                           <td>0</td>
@@ -579,6 +595,68 @@
                                                 - Blizzard Tomb (Cost: 2 / Initial: 0): Marks the allied unit with highest current health. Afterwards, attacks them with magic damage equals to 50% ATK + 60% of the target's current health.<br>
                                                 - After casting the above skills, self is granted 'Shields' based on the number of distinct targets hit by both skills (2 if the targets of "Singing Sand" and "Blizzard Tomb" are two different units, 1 otherwise).<br>
                                                 - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The healing after each turn is increased to 4.5% max health plus 6.6% missing health, increased to 18% max health plus 26.4$ missing health with 'Shield' on.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/>
+                                                      <label>Ya</label>
+                                                </div>
+                                          </td>
+                                          <td>25000</td>
+                                          <td>800</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Spring's Birth (Cost: 3 / Initial: 2): Summons a "Mirage". For more details, refer to the corresponding enemy in this list.<br>
+                                                - Wordly Self (Cost: 3 / Initial: 0): A special attack that hits all friendly units once, deals magic damage equals to 70% ATK and inflicts -30% DEF in 3 turns.<br>
+                                                - Slices the Season (Cost: 3 / Initial: 0): Attacks a target, deals physic damage equals to 100% ATK and immediately makes all presenting "Mirages" and "Delusion" casting this skill on that target once.<br>
+                                                - When having below 30% health and there's at least 1 "Mirage" is present, destroys them to heal self for 40% max health and retains 2 mana for "Spring's Birth".<br>
+                                                - When defeated for the first time, fully restores HP and enters the second phase. Gains the following properties:<br>
+                                                <em>
+                                                      + ATK increases by 15%.<br>
+                                                      + Immediately destroys all presenting "Mirages".<br>
+                                                      + "Spring Birth" becomes disabled.<br>
+                                                      + Summons a "Delusion". As long as "Delusion" is present, self gains additional (50 + 60%) DEF and RES.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The healing on destroying "Mirage" is increased to 60% max health.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/>
+                                                      <label>Mirage</label>
+                                                </div>
+                                          </td>
+                                          <td>10000</td>
+                                          <td>700</td>
+                                          <td>0</td>
+                                          <td>200</td>
+                                          <td>200</td>
+                                          <td>
+                                                - Slices the Season (Cost: 3 / Initial: 0): Attacks a target, deals physic damage equals to 125% ATK and immediately makes Ya and all presenting "Mirages" casting this skill on that target once.<br>
+                                                - Challenge Mode: Receives a 50% and 25% buff to base HP and ATK respectively.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/>
+                                                      <label>Delusion</label>
+                                                </div>
+                                          </td>
+                                          <td>22000</td>
+                                          <td>900</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Wordly Self (Cost: 3 / Initial: 0): A special attack that hits all friendly units once, deals magic damage equals to 85% ATK and inflicts -30% DEF in 3 turns.<br>
+                                                - Slices the Season (Cost: 3 / Initial: 0): Attacks a target, deals physic damage equals to 125% ATK and immediately makes Ya casting this skill on that target once.<br>
+                                                - Challenge Mode: Receives a 50% and 25% buff to base HP and ATK respectively.
                                           </td>
                                     </tr>
                               </tbody>

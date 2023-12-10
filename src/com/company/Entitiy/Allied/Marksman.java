@@ -24,8 +24,8 @@ public class Marksman extends Soldier {
         atk = 620;
         ap = 0;
         defpen = 15;
-        def = 230;
-        res = 50;
+        def = 2000;
+        res = 2000;
         atkScale = 6.5f;
         setMaxHealth(hp);
         setAtk(atk);

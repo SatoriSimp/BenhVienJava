@@ -65,7 +65,7 @@ public class menu {
                             + PrintColor.yellow + en);
             });
             System.out.print(PrintColor.green);
-            for (int i = 1; i <= 10; ++i) {
+            for (int i = 1; i <= 3; ++i) {
                 Enemy pick;
                 switch (Input.Shrt("enemy's ID", (short) 0, (short) (disEnList.size() - 1))) {
                     case 1:
@@ -444,9 +444,9 @@ public class menu {
                 "All friendly units have -20% max HP",
                 "All friendly units have -35% max HP",
                 "All friendly units have -55% max HP",
-                "All enemy units have +200 DEF",
-                "All enemy units have +400 DEF and +200 RES",
-                "All enemy units have +600 DEF and +400 RES",
+                "All enemy units have +300 DEF",
+                "All enemy units have +500 DEF and +200 RES",
+                "All enemy units have +700 DEF and +400 RES",
                 "All enemy units have +20% ATK",
                 "All enemy units have +40% ATK",
                 "All enemy units have +70% ATK",
@@ -564,8 +564,8 @@ public class menu {
                     SoList.forEach(so -> so.setMaxHealth(so.getMaxHealth() * Scale / 100));
                     break;
                 case 10: case 11: case 12:
-                    short DEF_b = (short) (risk == 10 ? 200 : risk == 11 ? 400 : 600);
-                    short RES_b = (short) (DEF_b - 200);
+                    short DEF_b = (short) (risk == 10 ? 300 : risk == 11 ? 500 : 700);
+                    short RES_b = (short) (DEF_b - 300);
                     EnList.forEach(en -> {
                         en.setDef((short) (en.getDef() + DEF_b));
                         en.setRes((short) (en.getRes() + RES_b));
@@ -634,10 +634,10 @@ public class menu {
             while (!fileExist) {
                 fileExist = true;
                 try {
-                    String songName = Input.Str("song name (type '0' to play none)") + ".wav";
-                    if (!songName.equals("0.wav")) playSound(songName);
+                    String songName = "ost\\" + Input.Str("song name (type '0' to play none)") + ".wav";
+                    if (!songName.equals("ost\\0.wav")) playSound(songName);
                 } catch (FileNotFoundException e) {
-                    System.out.println("File doesn't exist, make sure the path is correct and try again!");
+                    System.out.println("File doesn't exist, make sure the filename is correct and is located inside \"ost\" folder, then try again!");
                     fileExist = false;
                 }
             }
@@ -661,7 +661,7 @@ public class menu {
                     quote = "It the one has seen it all!";
                 }
                 else if (e instanceof EB) {
-                    theme = "D:\\C++ storage\\ABetterGems\\nicho5\\Debug\\ost\\emblade";
+                    theme = ".\\ost\\emblade";
                     quote = e.challengeMode ? "Snowfalls, blackening the earth." : "The blizzard, approaching.";
                 }
                 else if (e instanceof StmKgt) {
@@ -685,7 +685,7 @@ public class menu {
                     quote = "The sky is dyed black!";
                 }
                 else {
-                    theme = "D:\\C++ storage\\ABetterGems\\nicho5\\Debug\\ost\\lostmemory";
+                    theme = ".\\ost\\bigbat";
                     quote = "Huh?";
                 }
             }

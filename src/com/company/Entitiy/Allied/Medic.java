@@ -64,11 +64,10 @@ public class Medic extends Soldier {
                 "\n3. Use skill 2 " + PrintColor.cyan + "(-" + cost_2 + " mana)" + PrintColor.WHITE_BOLD +
                 "\n4. Check this unit stats" +
                 "\n5. Check an enemy stats" + PrintColor.def +
-                "\n6. Skip this turn " + PrintColor.cyan + "(+3 mana)" +
                 "\n" + PrintColor.blue + "Current mana: " + mana + PrintColor.def;
         System.out.println(options);
         short cnt = 1, enChoice;
-        short choice = Input.Shrt("choice", (short) 1, (short) 6);
+        short choice = Input.Shrt("choice", (short) 1, (short) 5);
         switch (choice) {
             case 1:
                 System.out.println("Pick a target:");
@@ -147,9 +146,6 @@ public class Medic extends Soldier {
                 EnList.get(enChoice - 1).printInfo();
                 action();
                 break;
-            default:
-                System.out.println(getName() + " skipped this turn and gains 3 mana");
-                this.addMana((short) 3);
         }
         return choice;
     }

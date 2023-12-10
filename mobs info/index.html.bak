@@ -42,15 +42,20 @@
 
                   <div class="hidden_textbox" id="akg_intro">
                         <p>List of all current enemies.</p>
-                        <input id="searchInput" onkeyup="find(event)" name="search" type="text" placeholder="Search enemy by name..."/>
+                        <div class="setting">
+                              <input id="searchInput" onkeyup="find(event)" name="search" type="text" placeholder="Search enemy by name..."/>
+                              <div class="filterBox">
+                              <button id="filter" type="button" onclick="eliteFilter()" />Elites only</button>
+                              </div>
+                        </div>
                         <table id="dmg-chart2" style="width: 100%; text-align: center; border: yellow 2px solid;">
                               <thead>
                                     <th>Name</th>
-                                    <th>HP <button onclick="sortTable(1, true)">▲</button> <button onclick="sortTable(1, false)">▼</button></th>
-                                    <th>ATK <button onclick="sortTable(2, true)">▲</button> <button onclick="sortTable(2, false)">▼</button></th>
-                                    <th>AP <button onclick="sortTable(3, true)">▲</button> <button onclick="sortTable(3, false)">▼</button></th>
-                                    <th>DEF <button onclick="sortTable(4, true)">▲</button> <button onclick="sortTable(4, false)">▼</button></th>
-                                    <th>RES <button onclick="sortTable(5, true)">▲</button> <button onclick="sortTable(5, false)">▼</button></th>
+                                    <th>HP<br><button onclick="sortTable(1, true)">▲</button> <button onclick="sortTable(1, false)">▼</button></th>
+                                    <th>ATK<br><button onclick="sortTable(2, true)">▲</button> <button onclick="sortTable(2, false)">▼</button></th>
+                                    <th>AP<br><button onclick="sortTable(3, true)">▲</button> <button onclick="sortTable(3, false)">▼</button></th>
+                                    <th>DEF<br><button onclick="sortTable(4, true)">▲</button> <button onclick="sortTable(4, false)">▼</button></th>
+                                    <th>RES<br><button onclick="sortTable(5, true)">▲</button> <button onclick="sortTable(5, false)">▼</button></th>
                                     <th>Ability</th>
                               </thead>
                               <tbody>
@@ -377,10 +382,211 @@
                                                 - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The value of 'Weakening' debuff is increased to 60%.
                                           </td>
                                     </tr>
+                                    <tr>
+                                          <td>Phalanx Spirit-clever</td>
+                                          <td>10000</td>
+                                          <td>600</td>
+                                          <td>0</td>
+                                          <td>350</td>
+                                          <td>200</td>
+                                          <td>
+                                                - Phalanx, can trigger "Enōmotía" on self and other "Phalanx" enemies.<br>
+                                                - Attack permanently deducts the target's max health equals to 75% of the damage dealt.<br>
+                                                - Enōmotía: Triggers at the beginning of battle when at least 2 Phalanx units are on the same team and still alive. When triggered, increases self ATK by an additional 400.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The max health deduction ratio is increased to 100%. "Enōmotía"'s ATK up effect is increased to 600.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Phalanx Renowned Frontliner</td>
+                                          <td>15000</td>
+                                          <td>500</td>
+                                          <td>0</td>
+                                          <td>800</td>
+                                          <td>200</td>
+                                          <td>
+                                                - Phalanx, can trigger "Enōmotía" on self and other "Phalanx" enemies.<br>
+                                                - When being attacked, the source is inflicted with 25% 'Weakening' for 3 turns.<br>
+                                                - Enōmotía: Triggers at the beginning of battle when at least 2 Phalanx units are on the same team and still alive. When triggered, all other "Phalanx" enemies will become "Invisible".<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. "Enōmotía" will also grant to other "Phalanx" enemies 70% physic and art damage reduction.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Twigs of the Sanguinaria</td>
+                                          <td>12500</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>700</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Does not attack.<br>
+                                                - When HP drops to 0 or when all other enemies have been defeated, reborn into a Sanguinary Descendant Malicebearer.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Twigs of the Sanguinaria</td>
+                                          <td>12500</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>800</td>
+                                          <td>
+                                                - Does not attack.<br>
+                                                - When HP drops to 0 or when all other enemies have been defeated, reborn into a Sanguinary Descendant Chaincaster.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Sanguinary Descendant Malicebearer</td>
+                                          <td>8000</td>
+                                          <td>750</td>
+                                          <td>0</td>
+                                          <td>300</td>
+                                          <td>300</td>
+                                          <td>
+                                                - Has 15% DEF penetration.<br>
+                                                - Upon spawning, base stats will become 8000/12000/16000/20000 HP, 750/1000/1250/1500 ATK, 15/20/25/30% DEF penetration, 300/550/800/1050 DEF and 300/400/500/600 RES for 0/1/2/3+ enemies that have been defeated.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Sanguinary Descendant Chaincaster</td>
+                                          <td>8000</td>
+                                          <td>0</td>
+                                          <td>700</td>
+                                          <td>300</td>
+                                          <td>300</td>
+                                          <td>
+                                                - Upon spawning, base stats will become 8000/12000/16000/20000 HP, 700/900/1100/1300 AP, 300/400/500/600 DEF and 300/550/800/1050 RES for 0/1/2/3+ enemies that have been defeated.<br>
+                                                - Attack deals 100% AP as magic damage to the target and bounces between their allies to damage them, dealing 25% less damage each time (up to 50%).
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/><label>Phalanx Shadowiest Mage</label>
+                                                </div>
+                                          </td>
+                                          <td>8500</td>
+                                          <td>100</td>
+                                          <td>1000</td>
+                                          <td>350</td>
+                                          <td>400</td>
+                                          <td>
+                                                - Phalanx, can trigger "Enōmotía" on self and other "Phalanx" enemies.<br>
+                                                - At the start of the battle, immediately summons a "Black Mist".<br>
+                                                - Attack deals 50% AP as magic damage. When there is a "Phalanx" enemy with less than 50% HP, stops attacking and heals that enemy for 100% AP instead.<br>
+                                                - Enōmotía: Triggers at the beginning of battle when at least 2 Phalanx units are on the same team and still alive. When triggered, all "Phalanx" enemies will have their RES increased by 400 and recover HP equals to 100 + 3% their max health every turn.<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Healing is increased to 170% AP. "Enōmotía" now give +600 RES and the HP recovery is increased to 100 + 5% target's max health.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/><label>The Last Steam Knight</label>
+                                                </div>
+                                          </td>
+                                          <td>18000</td>
+                                          <td>700</td>
+                                          <td>0</td>
+                                          <td>2000</td>
+                                          <td>600</td>
+                                          <td>	
+                                                - Immune to crowd-control effects.<br>
+                                                - Attack targets the unit with highest DEF and causes a debuff that inflicts -60% DEF on the target, lasting for 3 turns. This debuff takes effect before the damage occurs.<br>
+                                                - Initially spawned with 4 layers of 'Shields'.<br>
+                                                - Unto's One Death (Cost: 4 / Initial: 4): Attacks 4 times consecutively. For each time, a friendly unit with highest HP percentage is selected, deals 125% ATK as physic damage to them. The attacks from this skill however won't trigger the DEF reduction debuff. After this skill ends, self is affected with 40% 'Fragile' in 1 turn.<br>
+                                                - When defeated for the first time, fully restores HP and enters the second phase. Gains the following properties:<br>
+                                                <em>
+                                                      + Obtains 4 layers of 'Shields'.<br>
+                                                      + DEF is reduced by 65%.<br>
+                                                      + ATK is increased by 15%.<br>
+                                                      + Attack now targets 2 friendly units with highest (and second highest) DEF simultaneously.<br>
+                                                      + "Unto One's Death"'s damage per hit is reduced to 110% ATK, but also has its skill cost reduced to 3 and can attack up to 6 times consecutively.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The value of DEF reduction effect is increased to 80%, and the self-applied 'Fragile' from "Unto One's Death" is removed.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/><label>Emperor's Blade</label>
+                                                </div>
+                                          </td>
+                                          <td>15000</td>
+                                          <td>500</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Has 50% DEF penetration.<br>
+                                                - After every attack, permanently increases self ATK by 100. Stacking up to 5 times for +500 total ATK.<br>
+                                                - If the attack brings the target's HP down belows 40%, they will be inflicted with 1% 'Fragile' within the next 10 turns.<br>
+                                                - Collapsing Fear (Cost: 2 / Initial: 2): A special attack that hits all friendly units once, dealing 150% ATK as magic damage as well as ignoring 50% of their RES. Units hit by this skill is also affected with 50% 'Grievous Wound' for 3 turns.
+                                                In the event the target is affected with 'Fragile' on them, the damage of this attack however will become <em>9999(!)</em> and ignore ALL damage modification methods (such as DEF/RES, damage reduction, 'Shelter', 'Shield' or 'Fragile'). Can only be casted one time in the first phase.<br>
+                                                - When defeated for the first time, fully restores HP and enters the second phase. Gains the following properties:<br>
+                                                <em>
+                                                      + Loses all current mana.<br>
+                                                      + DEF and RES increase by an additional 200.<br>
+                                                      + Immediately casts "Collapsing Fear" right after revival. Afterwards, "Collapsing Fear" can be cast periodically.<br>
+                                                </em>
+                                                - Challenge Mode: This unit is replaced with "Emperor's Blade - The Pursuer". View the respective contents for details.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/><label>Emperor's Blade - The Pursuer</label>
+                                                </div>
+                                          </td>
+                                          <td>18000</td>
+                                          <td>300</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Has 50% DEF penetration.<br>
+                                                - Attack deals additional physic damage equals to 25% of the target's current health.<br>
+                                                - After every attack, permanently increases self ATK by 60. Stacking up to 5 times for +300 total ATK.<br>
+                                                - If the attack brings the target's HP down belows 50%, they will be inflicted with 1% 'Fragile' within the next 10 turns.<br>
+                                                - Collapsing Fear (Cost: 2 / Initial: 2): A special attack that hits all friendly units once, dealing 200% ATK as magic damage as well as ignoring 50% of their RES. Units hit by this skill is also affected with 50% 'Grievous Wound' for 3 turns.
+                                                In the event the target is affected with 'Fragile' on them, the damage of this attack however will become <em>9999(!)</em> and ignore ALL damage modification methods (such as DEF/RES, damage reduction, 'Shelter', 'Shield' or 'Fragile'). Can only be casted one time in the first phase.<br>
+                                                - When defeated for the first time, fully restores HP and enters the second phase. Gains the following properties:<br>
+                                                <em>
+                                                      + Loses all current mana.<br>
+                                                      + DEF and RES increase by an additional 200.<br>
+                                                      + Now become immune to crowd-control effects.<br>
+                                                      + The bonus physic damage on attack is increased to 35% of the target's current health.<br>
+                                                      + Immediately casts "Collapsing Fear" right after revival. Afterwards, "Collapsing Fear" can be cast periodically.<br>
+                                                      + Casting "Collapsing Fear" will now render self with 50% 'Shelter', lasts for 2 turns.<br>
+                                                </em>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/>
+                                                      <label>The Forsaken One</label>
+                                                </div>
+                                          </td>
+                                          <td>15000</td>
+                                          <td>800</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>300</td>
+                                          <td>
+                                                - Successfully attacking a unit increases self ATK and DEF penetration by 200 and 15%, respectively.
+                                                This bonus can stack additively and without a limit.
+                                                In the event the attack is not success (blocked, or self does not attack within that turn) however, loses 400 ATK and 30% DEF penetration (can not be reduced below the base stats).<br>
+                                                - At the end of each turn, recovers 2.5% max health plus 5.5% missing health. If self is possessing at least 1 'Shield' during this time, the healing is increased to 7.5% max health plus 16.5% missing health instead.<br>
+                                                - Singing Sand (Cost: 2 / Initial: 0): Marks the allied unit lowest DEF. Afterwards, attacks them with physic damage equals to 180% ATK.<br>
+                                                - Blizzard Tomb (Cost: 2 / Initial: 0): Marks the allied unit with highest current health. Afterwards, attacks them with magic damage equals to 50% ATK + 60% of the target's current health.<br>
+                                                - After casting the above skills, self is granted 'Shields' based on the number of distinct targets hit by both skills (2 if the targets of "Singing Sand" and "Blizzard Tomb" are two different units, 1 otherwise).<br>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The healing after each turn is increased to 4.5% max health plus 6.6% missing health, increased to 18% max health plus 26.4$ missing health with 'Shield' on.
+                                          </td>
+                                    </tr>
                               </tbody>
                         </table>
                   </div>
             </div>
+            </vl>
       </div>
 </body>
 </html>

@@ -313,14 +313,6 @@ abstract public class Entity implements Cloneable {
 
     public void normalAttack(Entity target, int damage) {
         dealingDamage(target, damage);
-        if (this instanceof Soldier && target instanceof Enemy) {
-            EntitiesList.SoList.forEach(so -> {
-                if (so instanceof Saigyouji && so != this && so.isAlive()) {
-                    ((Saigyouji) so).followUp = true;
-                    so.normalAttack(target);
-                }
-            });
-        }
     }
 
     public void dealingDamage(Entity target, int damage) {

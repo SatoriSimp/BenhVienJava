@@ -61,6 +61,7 @@ public class Awakening extends Enemy {
             setRes((short) 650);
             setMaxHealth(3500);
             setAtk((short) 500);
+            setAp((short) 0);
             isSummon = true;
             if (replace) setChallengeMode();
         }
@@ -85,7 +86,8 @@ public class Awakening extends Enemy {
             setDef((short) 500);
             setRes((short) 650);
             setMaxHealth(4500);
-            setAtk((short) 700);
+            setAtk((short) 600);
+            setAp((short) 100);
             setReduction((short) 50);
         }
     }

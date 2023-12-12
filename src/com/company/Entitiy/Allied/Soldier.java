@@ -1,5 +1,6 @@
 package com.company.Entitiy.Allied;
 
+import com.company.EntitiesList;
 import com.company.Entitiy.Enemy.Enemy;
 import com.company.Entitiy.Entity;
 import com.company.Input;
@@ -182,6 +183,14 @@ abstract public class Soldier extends Entity implements PlayerBehaviors {
     public void normalAttack(Entity target, int damage) {
         ++mana;
         super.normalAttack(target, damage);
+        if (target instanceof Enemy) {
+            EntitiesList.SoList.forEach(so -> {
+                if (so instanceof Saigyouji && so != this && so.isAlive()) {
+                    ((Saigyouji) so).followUp = true;
+                    so.normalAttack(target);
+                }
+            });
+        }
     }
 
     @Override

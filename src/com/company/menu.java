@@ -49,6 +49,7 @@ public class menu {
                     "Bloodthirsty Heir / Engorged Heir",
                     "Rotchaser / Lunatic Rotchaser",
                     "\"Redmark\" Eradicator",
+                    "Sanguinary Wither Devourer / Sanguinary Wither Maw",
                     "The Avenger",
                     "The Singer",
                     "Corrupted Bladeweaver / " + PrintColor.Red("Corrupted Worldcurser"),
@@ -108,27 +109,30 @@ public class menu {
                         pick = new Eradicator();
                         break;
                     case 14:
-                        pick = new Avenger();
+                        pick = new Devourer();
                         break;
                     case 15:
-                        pick = new Singer();
+                        pick = new Avenger();
                         break;
                     case 16:
-                        pick = new PosSwrd();
+                        pick = new Singer();
                         break;
                     case 17:
-                        pick = new StmKgt();
+                        pick = new PosSwrd();
                         break;
                     case 18:
-                        pick = new EB();
+                        pick = new StmKgt();
                         break;
                     case 19:
-                        pick = new TFO();
+                        pick = new EB();
                         break;
                     case 20:
-                        pick = new Awakening();
+                        pick = new TFO();
                         break;
                     case 21:
+                        pick = new Awakening();
+                        break;
+                    case 22:
                         pick = new Ya();
                         break;
                     default:

@@ -315,6 +315,44 @@
                                           </td>
                                     </tr>
                                     <tr>
+                                          <td>Sanguinary Wither Devourer</td>
+                                          <td>22000</td>
+                                          <td>900</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>600</td>
+                                          <td>
+                                                - For one time in the battle: When attacking, if there is an friendly unit with less than 50% health, devours them instead.<br>
+                                                - Devours: Immediately defeat the target (actually by dealing 9999 damage to them that ignores 'Shield' and bypasses any damage modification). Afterwards, permanently gains the following properties:<br>
+                                                <em>
+                                                      + DEF increases by 800.<br>
+                                                      + Gains ATK proportional to (80% of the devoured target's ATK + 60% of the devoured target's AP).<br>
+                                                      + Gains additional max health equals to 150% of the devoured target's max health.<br>
+                                                      + Steals all of the target's current 'Shields'.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Can devour target as soon as their HP drops below 50% without waiting for self turn. HP is restored to full after devouring.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>Sanguinary Wither Maw</td>
+                                          <td>25000</td>
+                                          <td>1050</td>
+                                          <td>0</td>
+                                          <td>0</td>
+                                          <td>600</td>
+                                          <td>
+                                                - For one time in the battle: When attacking, if there is an friendly unit with less than 50% health, devours them instead.<br>
+                                                - Devours: Immediately defeat the target (actually by dealing 9999 damage to them that ignores 'Shield' and bypasses any damage modification). Afterwards, permanently gains the following properties:<br>
+                                                <em>
+                                                      + DEF increases by 900.<br>
+                                                      + Gains ATK proportional to (90% of the devoured target's ATK + 70% of the devoured target's AP).<br>
+                                                      + Gains additional max health equals to 200% of the devoured target's max health.<br>
+                                                      + Steals all of the target's current 'Shields'.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. Can devour target as soon as their HP drops below 50% without waiting for self turn. HP is restored to full after devouring.
+                                          </td>
+                                    </tr>
+                                    <tr>
                                           <td>The Avenger</td>
                                           <td>13000</td>
                                           <td>550</td>
@@ -423,6 +461,33 @@
                                                 - Immune to crowd-control effects.<br>
                                                 - Attack targets the friendly unit with lowest current health.<br>
                                                 - Can only be summoned by "Phalanx Shadowiest Mage", and will be defeated as soon as "Phalanx Shadowiest Mage" is defeated.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>AWK-2 Replica</td>
+                                          <td>3500</td>
+                                          <td>500</td>
+                                          <td>0</td>
+                                          <td>500</td>
+                                          <td>650</td>
+                                          <td>
+                                                - When "Awakening" is attacked, 50% of the damage will be transferred to self and all other "AWK-2 Replicas".
+                                                The damage transferred this way is treat as true damage, and will be distributed equally among all.<br>
+                                                - Can only be summoned by "Awakening".<br>
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td>AWK-3 Bionic</td>
+                                          <td>4500</td>
+                                          <td>600</td>
+                                          <td>100</td>
+                                          <td>500</td>
+                                          <td>650</td>
+                                          <td>
+                                                - Has 50% physic and art damage reduction.<br>
+                                                - When "Awakening" is attacked, 50% of the damage will be transferred to self and all other "AWK-3 Bionics".
+                                                The damage transferred this way is treat as true damage, and will be distributed equally among all.<br>
+                                                - Can only be summoned by "Awakening".<br>
                                           </td>
                                     </tr>
                                     <tr>
@@ -595,6 +660,44 @@
                                                 - Blizzard Tomb (Cost: 2 / Initial: 0): Marks the allied unit with highest current health. Afterwards, attacks them with magic damage equals to 50% ATK + 60% of the target's current health.<br>
                                                 - After casting the above skills, self is granted 'Shields' based on the number of distinct targets hit by both skills (2 if the targets of "Singing Sand" and "Blizzard Tomb" are two different units, 1 otherwise).<br>
                                                 - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. The healing after each turn is increased to 4.5% max health plus 6.6% missing health, increased to 18% max health plus 26.4$ missing health with 'Shield' on.
+                                          </td>
+                                    </tr>
+                                    <tr>
+                                          <td class="elite">
+                                                <div>
+                                                      <img src="img/Elite_icon.webp" alt="Elite symbol"/>
+                                                      <label>Awakening</label>
+                                                </div>
+                                          </td>
+                                          <td>25000</td>
+                                          <td>100</td>
+                                          <td>600</td>
+                                          <td>500</td>
+                                          <td>500</td>
+                                          <td>
+                                                - Attack depletes 1 mana from the target. If the target has no mana, that attack deals bonus magic damage equals to 70% AP instead.<br>
+                                                - Resonance (Cost: 4 / Initial: 4): Immediately summons two "AWK-2 Replica".<br>
+                                                - When being attacked, 50% of the damage taken is transferred to all "AWK-2 Replica" presenting (can not take effect if no "AWK-2 Replica" is present).<br>
+                                                - Shattered Vision (Cost: 4 / Initial: 0): Deals 650% ATK + 650% AP as physic damage to all friendly units.
+                                                However, the damage is divided by the number of targets this attack hits (each friendly unit takes 100% damage if only 1 is present, 50% if 2 are present, 33% with 3, ...).<br>
+                                                - When defeated for the first time, immediately deals 9999 damage to all presenting "AWK-2 Replica" then enters a 'Hibernating' state that lasts for 5 turns. During this states, self possesses the following properties:<br>
+                                                <em>
+                                                      + Loses all mana.<br>
+                                                      + Unable to attack (and thus can't recover mana), use "Resonance" or "Shattered Vision".<br>
+                                                      + Has 1 HP.<br>
+                                                      + Gains 100% 'Shelter' that lasts for 5 turns.<br>
+                                                      + 5 "AWK-2 Replica" are immediately summoned.<br>
+                                                </em>
+                                                - 'Hibernating' state ends after its duration runs out or all 5 summoned "AWK-2 Replica" are defeated (in which event it will be forced to end).
+                                                At the end of that state, destroys all remaining "AWK-2 Replica" and enters the second phase, gains the following properties:<br>
+                                                <em>
+                                                      + Restores 65% max health, plus an additional 7% for every "AWK-2 Replica" that still survives at the end of 'Hibernating' (hence fully restores HP if none was destroyed).<br>
+                                                      + Recovers 4 mana.<br>
+                                                      + When attacking target with no mana, the bonus magic damage is increased to 110% AP.<br>
+                                                      + "Resonance" now summons three "AWK-2 Replica" instead of two.<br>
+                                                      + The damage from "Shattered Vision" now also ignores 60% of the target's DEF.<br>
+                                                </em>
+                                                - Challenge Mode: Receives a 10% buff to base HP, ATK, AP and DEF. All "AWK-2 Replica" that got summoned will be replaced with "AWK-3 Bionic".
                                           </td>
                                     </tr>
                                     <tr>

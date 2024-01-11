@@ -14,7 +14,7 @@ abstract public class Enemy extends Entity implements EnemyBehaviors {
     String trait, skill, shortDes, cmAdd = PrintColor.RED_BOLD_BRIGHT + "Challenge Mode's add-on: " + PrintColor.red;
     boolean bleeding = false, canRevive = false;
     public boolean isElite = false;
-    short mana = 0;
+    public short mana = 0;
     final int HIGHEST_MSSING_HLTH = 1,
                 LOWEST_DEF = 2,
                 LOWEST_CRNT_HLTH = 3,

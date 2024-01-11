@@ -50,7 +50,7 @@ public class Defender extends Soldier {
 
     public int reflectDmg(Entity target) {
         int dmg = damageOutput(getAtk() + getDef() * 5 / 10 + getRes(), 0, target);
-        if (target.taunt.inEffect()) dmg += damageOutput(0, damageAdd, target);
+        if (target.taunt.inEffect()) dmg += damageOutput(damageAdd, 0, target);
         return dmg;
     }
 

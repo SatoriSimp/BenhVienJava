@@ -8,7 +8,7 @@ import com.company.PrintColor;
 public class Devourer extends Enemy {
     public boolean devoured = false;
     private short DEF_add;
-    private float DevourThreshold, ATK_steal, HP_steal;
+    private float ATK_steal, HP_steal;
 
     public Devourer() {
         if (Math.floor(Math.random() * (100 - 1 + 1) + 1) > 20) {
@@ -29,8 +29,7 @@ public class Devourer extends Enemy {
             ATK_steal = 0.9f;
             HP_steal = 2f;
         }
-        DevourThreshold = 0.5f;
-        setSkill(PrintColor.BRed("Feast Upon Thee") + ": When an allied unit falls below 50% HP, devour them to permanently increase self DEF and steal a percentage of their base stats. " +
+        setSkill(PrintColor.BRed("Feast Upon Thee") + ": When attacking, if there's an allied unit with lower than 40% HP, devours them to permanently gain increased DEF and steal a percentage of their base stats. " +
                 "Once devoured, the target is immediately defeated and this ability can no longer be used afterwards.");
         setDef((short) 0);
         setRes((short) 600);
@@ -43,7 +42,7 @@ public class Devourer extends Enemy {
 
     @Override
     public void update() {
-        if (!challengeMode) return;
+        if (!challengeMode || !this.isAlive()) return;
         devour();
     }
 
@@ -51,11 +50,12 @@ public class Devourer extends Enemy {
         if (devoured) return false;
         for (Soldier s : EntitiesList.SoList) {
             if (!s.isAlive()) continue;
-            if (s.getHealth() <= s.getMaxHealth() / 2) {
+            if (s.getHealth() <= s.getMaxHealth() * 0.4f) {
                 dealingDamage(s, 9999, "Devour", PrintColor.Bred, true);
                 if (!s.isAlive()) {
                     this.addDef(DEF_add);
-                    this.addAtk((short) (s.getBaseAtk() * ATK_steal + s.getBaseAp() * (ATK_steal - 0.2f)));
+                    this.addAtk((short) (s.getBaseAtk() * ATK_steal));
+                    this.addAp((short) (s.getBaseAp() * (ATK_steal - 0.2f)));
 
                     if (challengeMode) this.setMaxHealth((int) (this.getMaxHealth() + s.getMaxHealth() * HP_steal));
                     else this.setHealth((int) (this.getMaxHealth() + s.getMaxHealth() * HP_steal));

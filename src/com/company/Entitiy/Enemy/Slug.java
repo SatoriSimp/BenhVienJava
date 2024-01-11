@@ -6,11 +6,11 @@ import com.company.PrintColor;
 
 public class Slug extends Enemy {
     private float def_up, res_up;
-    private int deathNote;
+    private final int deathNote;
     private short preAR = 0, preMR = 0;
     private boolean exploded = false;
-    private short burnBaseDmg;
-    private float burnBaseBonus;
+    private final short burnBaseDmg;
+    private final float burnBaseBonus;
 
     public Slug() {
         if (Math.floor(Math.random() * (100 - 1 + 1) + 1) >= 20) {

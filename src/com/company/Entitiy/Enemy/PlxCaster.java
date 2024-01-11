@@ -51,6 +51,9 @@ public class PlxCaster extends Enemy {
 
     @Override
     public void preBattleSpecial() {
+        if (preBattleEffectApplied) return;
+        preBattleEffectApplied = true;
+        EntitiesList.SummonList.add(new Mist());
         int plxcnt = 0;
         for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
         if (plxcnt >= 2) {
@@ -68,8 +71,9 @@ public class PlxCaster extends Enemy {
     public void update() {
         if (!phalanx) return;
         int plxcnt = 0;
-        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
-        if ((plxcnt < 2 && phalanx) || !this.isAlive()) {
+        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx") && e.isAlive()) plxcnt++;
+        if (phalanx && (plxcnt < 2 || !this.isAlive())) {
+            System.out.println(PrintColor.Blue("Enōmotía deactivated! The bonus RES and HP recovery on all other enemies have been removed!"));
             phalanx = false;
             EntitiesList.EnList.forEach(plx -> {
                 if (plx.getName().contains("Phalanx")) {

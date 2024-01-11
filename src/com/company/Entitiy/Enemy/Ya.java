@@ -9,7 +9,7 @@ import com.company.Wait;
 public class Ya extends Enemy {
     public short manaClone = 2;
     public final short cloneSpawn = 3;
-    public boolean delSpawn = false;
+    public boolean delSpawn = false, delusionExists = false;
     private boolean highSummon = false, canSummon = true;
     public boolean skillCycle = false;
 
@@ -27,8 +27,8 @@ public class Ya extends Enemy {
                 + PrintColor.BYellow("all Ya and Ya's Mirage") + " will also perform an additional slash to that target.\n"
             + PrintColor.BYellow("\nDuring the second phase:\n")
             + PrintColor.BYellow("Autumn's Bounty") + ": Destroys all " + PrintColor.BYellow("Mirages") + " and permanently disables " + PrintColor.BYellow("Spring's Birth")
-                + ". Immediately summons a " + PrintColor.BYellow("Delusion") + " that can use most of Ya's abilities. Gains greatly increased "
-                + PrintColor.Yellow("DEF") + " and " + PrintColor.Cyan("RES") + " while Delusion is present.");
+                + ". Immediately summons a " + PrintColor.BYellow("Delusion") + " that can use most of Ya's abilities. Gains "
+                + PrintColor.Cyan("'Shelter'") + " as long as Delusion is present.");
         setMaxHealth(25000);
         setDef((short) 500);
         setRes((short) 500);
@@ -73,7 +73,7 @@ public class Ya extends Enemy {
         this.challengeMode = cyl;
         if (challengeMode) {
             setMaxHealth((int) (getMaxHealth() * 1.5f));
-            setAtk((short) (getBaseAtk() * 1.25f));
+            setAtk((short) (highSummon ? getBaseAtk() * 1.15f : (getBaseAtk() * 1.3f)));
         }
         this.skillCycle = false;
         mana = 0;
@@ -139,17 +139,35 @@ public class Ya extends Enemy {
         super.revive();
         canSummon = false;
         System.out.println(PrintColor.BRed("Witness the seasons change once more!"));
+        this.shelter.setValue((short) 70, (short) 1000);
+        delusionExists = true;
+    }
+
+    @Override
+    public void update() {
+        if (!delusionExists) return;
+
+        boolean delusionAlive = false;
+        for (Enemy e : EntitiesList.EnList) {
+            if (e instanceof Ya && e.isSummon && ((Ya) e).highSummon && e.isAlive())
+                delusionAlive = true;
+        }
+
+        if (!delusionAlive) {
+            delusionExists = false;
+            this.shelter.setDuration((short) 1);
+            while (shelter.inEffect()) shelter.fadeout();
+        }
     }
 
     @Override
     public void naturalRecovery() {
         if (!isSummon) {
-            short cloneCNT = 0;
+            super.naturalRecovery();
             Ya mirage = null;
             for (Enemy e : EntitiesList.EnList) {
                 if (e instanceof Ya && e.isSummon && e.isAlive()) {
                     if (!e.getName().equals("Delusion")) mirage = (Ya) e;
-                    if (((Ya) e).highSummon) cloneCNT += 3;
                 }
             }
             if (this.getHealth() < (this.getMaxHealth() * 0.3) && mirage != null) {
@@ -158,7 +176,6 @@ public class Ya extends Enemy {
                 this.healing((int) (getMaxHealth() * healingScale));
                 manaClone += 2;
             }
-            if (cloneCNT > 0) this.defBuff.initialize((short) 50, (short) 50, (short) (20 * cloneCNT), (short) (20 * cloneCNT), (short) 2);
         }
         else super.naturalRecovery();
     }

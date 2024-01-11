@@ -20,7 +20,7 @@ public class Marksman extends Soldier {
         cost_2 = 3;
         critDmg = 190;
         baseCrit = 50;
-        hp = 2100;
+        hp = 2350;
         atk = 620;
         ap = 0;
         defpen = 15;

@@ -19,8 +19,8 @@ public class PlxClever extends Enemy {
         setMaxHealth(10000);
         setDef((short) 350);
         setRes((short) 200);
-        setAtk((short) 600);
-        deduct = 0.75f;
+        setAtk((short) 500);
+        deduct = 0.65f;
         atkgain = 400;
     }
 
@@ -28,12 +28,16 @@ public class PlxClever extends Enemy {
     public void normalAttack(Entity target) {
         target = getTaunt(target);
         int dmg = damageOutput(getAtk(), getAp(), target);
-        target.setMaxHealth((int) Math.max(target.getMaxHealth() - (dmg * deduct), 250));
-        super.normalAttack(target, dmg);
+        super.normalAttack(target, (int) (dmg * (1 - deduct)));
+        final int hp_deduct = (int) (dmg * deduct);
+        System.out.println(PrintColor.Red(target.getName() + "'s health is deducted by " + hp_deduct + "!"));
+        target.setHealth(Math.max(target.getMaxHealth() - hp_deduct, 500));
     }
 
     @Override
     public void preBattleSpecial() {
+        if (preBattleEffectApplied) return;
+        preBattleEffectApplied = true;
         int plxcnt = 0;
         for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
         if (plxcnt >= 2) {
@@ -46,8 +50,9 @@ public class PlxClever extends Enemy {
     public void update() {
         if (!phalanx) return;
         int plxcnt = 0;
-        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
-        if ((plxcnt < 2 && phalanx) || !this.isAlive()) {
+        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx") && e.isAlive()) plxcnt++;
+        if (phalanx && (plxcnt < 2 || !this.isAlive())) {
+            System.out.println(PrintColor.Blue("Enōmotía deactivated! The bonus ATK on self has been removed!"));
             phalanx = false;
             this.addAtk((short) -atkgain);
         }

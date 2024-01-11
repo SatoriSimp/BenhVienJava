@@ -34,8 +34,8 @@ public class Qual extends Enemy {
             + SpellName[0] + ": " + PrintColor.Red("Art casted from fire") + ", resembles that of volcano slug. Deals " + PrintColor.Purple("magic damage")
                 + " to a unit, inflicts " + PrintColor.BRed("Burn") + " while " + PrintColor.Yellow("significantly increases their DEF") + " for 3 turns.\n"
             + SpellName[1] + ": " + PrintColor.Purple("Art casted from pure magic") + ", resembles the Knight of Victoria. "
-                + "Summons 6 magic sphere to continuously bombard unit with " + PrintColor.Green("highest HP")
-                + ", deals " + PrintColor.Purple("increasing magic damage") + " each time.\n"
+                + "Summons 6 magic sphere to continuously bombard unit with " + PrintColor.Green("highest HP percentage")
+                + ", deals " + PrintColor.Purple("accumulate magic damage") + " each time.\n"
             + SpellName[2] + ": " + PrintColor.Blue("Art casted from desires fueled with fears") + ", resembles the everlasting domination of absolute power. " + PrintColor.Red("Increases self ATK") + " and " +
                 "at the same time, inflicting all allied units with " + PrintColor.Blue("30% 'Fragile'")
                 + " and " + PrintColor.Purple("40% 'Grievous Wound'") + ", lasts for 4 turns.\n"
@@ -80,7 +80,7 @@ public class Qual extends Enemy {
                     short baseDmg = (short) (getAp() * 0.4f);
                     for (short i = 1; i <= times; ++i) {
                         if (!EntitiesList.Players_isAlive()) return;
-                        Soldier t = targetSearch(5);
+                        Soldier t = targetSearch(HIGHEST_HP_PERCENTAGE);
                         dealingDamage(t, damageOutput(0, baseDmg, t), SpellName[spellID - 1], PrintColor.Bpurple);
                         baseDmg += getAp() * 0.15f;
                         Wait.sleep(1000);

@@ -7,7 +7,6 @@ import com.company.PrintColor;
 public class Heatwave extends Enemy {
     public int baseDmg;
     public float defScale;
-    private short cooldown = 2;
 
     public Heatwave() {
         setName("Heat Waves Spout");

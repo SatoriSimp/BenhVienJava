@@ -7,7 +7,6 @@ import com.company.Input;
 import com.company.PrintColor;
 
 import static com.company.EntitiesList.EnList;
-import static com.company.EntitiesList.Enemies_isAlive;
 
 abstract public class Soldier extends Entity implements PlayerBehaviors {
     final String gap_T = "          ", gap_S1 = "               ", gap_S2 = "                ";
@@ -43,7 +42,7 @@ abstract public class Soldier extends Entity implements PlayerBehaviors {
         if (this.silence.inEffect()) {
             lockedSpell = PrintColor.red + " (Locked)" + PrintColor.def;
         }
-        else if (this instanceof Swordsman && this.getMissingHealth() < this.getMaxHealth() / 2) {
+        else if (this instanceof Swordsman && ((Swordsman) this).s2_locked()) {
             notReached = PrintColor.Red(" (Not available)");
         }
         System.out.println(PrintColor.yellow + getName() + "'s turn!" + PrintColor.def);
@@ -61,7 +60,7 @@ abstract public class Soldier extends Entity implements PlayerBehaviors {
             case 1:
                 System.out.println("Pick a target:");
                 for (Enemy t : EnList) {
-                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
+                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Red(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]") + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                     ++cnt;
                 }
                 enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
@@ -87,7 +86,7 @@ abstract public class Soldier extends Entity implements PlayerBehaviors {
                 else if (tar_1) {
                     System.out.println("Pick a target:");
                     for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Red(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]") + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
@@ -121,7 +120,7 @@ abstract public class Soldier extends Entity implements PlayerBehaviors {
                 else if (tar_2) {
                     System.out.println("Pick a target:");
                     for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Red(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]") + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));

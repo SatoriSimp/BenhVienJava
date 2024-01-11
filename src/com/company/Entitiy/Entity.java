@@ -1,9 +1,7 @@
 package com.company.Entitiy;
 
-import com.company.EntitiesList;
 import com.company.Entitiy.Allied.Defender;
 import com.company.Entitiy.Allied.Pathfinder;
-import com.company.Entitiy.Allied.Saigyouji;
 import com.company.Entitiy.Allied.Soldier;
 import com.company.Entitiy.Enemy.*;
 import com.company.PrintColor;
@@ -12,7 +10,7 @@ import com.company.Status.CC.Taunt;
 import com.company.Status.Effect.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
 
 import static com.company.EntitiesList.EnList;
 
@@ -24,6 +22,10 @@ abstract public class Entity implements Cloneable {
     public final DefBuff defBuff = new DefBuff(this);
     public final AtkBuff atkBuff = new AtkBuff(this);
     public final AtkDown atkDebuff = new AtkDown(this);
+
+    protected static final HashMap<Entity, Integer> CorrosionAccumulate = new HashMap<>();
+    protected static final HashMap<Entity, Integer> WitherAccumulate = new HashMap<>();
+
     public final CC silence = new CC();
     public final CC stun = new CC();
     public final DoT poison = new DoT();
@@ -32,12 +34,12 @@ abstract public class Entity implements Cloneable {
     public boolean canAttack = true, canCC = true, isSilenced = false, isDisarmed = false, isSummon = false, isInvisible = false;
     public String shortDes;
     private String name;
-    private String id;
     private int health, maxHealth;
     private short atk, ap, def, res, baseAtk, baseAp, baseDef, baseRes, shield = 0, tauntLevel = 1;
     private short defPen = 0, defIgn = 0, resPen = 0, resIgn = 0, reduction = 0, lifesteal = 0;
     private float physAmp = 0, artAmp = 0;
     private short recovery = 0;
+    public boolean preBattleEffectApplied = false;
 
     public void addMaxHealth(int amount) {
         this.maxHealth += amount;
@@ -54,18 +56,22 @@ abstract public class Entity implements Cloneable {
 
     public void addAtk(short atk) {
         this.atk += atk;
+        if (this.atk < 0) this.atk = 0;
     }
 
     public void addAp(short ap) {
         this.ap += ap;
+        if (this.ap < 0) this.ap = 0;
     }
 
     public void addDef(short amount) {
         this.def += amount;
+        if (this.def < 0) this.def = 0;
     }
 
     public void addRes(short amount) {
         this.res += amount;
+        if (this.res < 0) this.res = 0;
     }
 
     public short getShield() { return shield; }
@@ -282,8 +288,10 @@ abstract public class Entity implements Cloneable {
                 }
             }
         }
-        System.out.print("]" + "\t" + (100 - per_missing) + '%' + "\u001B[0m");
+        System.out.print("]" + "    " + (100 - per_missing) + '%' + "\u001B[0m");
 
+        if (WitherAccumulate.containsKey(this)) System.out.print(PrintColor.WHITE_BOLD + "    \"Wither\" accumulate: " + WitherAccumulate.get(this) + PrintColor.def);
+        if (CorrosionAccumulate.containsKey(this)) System.out.print(PrintColor.Cyan("    \"Corrosion\" accumulate: " + CorrosionAccumulate.get(this)));
         if (this.isInvisible) System.out.print(PrintColor.Yellow("    Invisible"));
         if (this.shield > 0) System.out.print(PrintColor.green + "    Layers of Shield: " + this.shield);
         if (this == TFO.lowDEF) System.out.print(PrintColor.BRed("    Singing Sand"));
@@ -485,6 +493,7 @@ abstract public class Entity implements Cloneable {
     public void naturalRecovery() {
         if (recovery <= 0) return;
         this.healing(recovery, false);
+        System.out.println(PrintColor.Green(this.getName() + " regenerates " + this.grievouswound.reduce(recovery) + " HP."));
     }
 
     public void healing(int amount) {
@@ -517,6 +526,7 @@ abstract public class Entity implements Cloneable {
             this.health -= poisonDmg;
             this.poison.fadeout();
         }
+
         if (this.bleed.inEffect() && this.isAlive()) {
             int bleedDmg = this.bleed.getValue() / 2;
             int total = bleed.getInflicter().damageOutput(bleedDmg, 0, bleedDmg, this, true);
@@ -525,6 +535,7 @@ abstract public class Entity implements Cloneable {
                     + " takes " + PrintColor.Red(total + " damage") + "!");
             this.bleed.fadeout();
         }
+
         if (this.burn.inEffect() && this.isAlive()) {
             int burnDmg = (int) (this.burn.getValue() * (1.0 + this.getDef() * 0.0012f));
             int output = burn.getInflicter().damageOutput(0, 0, burnDmg, this, true);
@@ -577,6 +588,6 @@ abstract public class Entity implements Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return (Entity) another;
+        return another;
     }
 }

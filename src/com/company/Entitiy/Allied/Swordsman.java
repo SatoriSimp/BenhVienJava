@@ -1,6 +1,5 @@
 package com.company.Entitiy.Allied;
 
-import com.company.Entitiy.Enemy.Slug;
 import com.company.Entitiy.Entity;
 import com.company.PrintColor;
 
@@ -88,11 +87,12 @@ public class Swordsman extends Soldier {
 
     @Override
     public boolean castSkill_2(Entity target) {
-        if (!super.castSkill_2(target) || this.getMissingHealth() < this.getMaxHealth() * 0.6f) {
-            if (this.getMissingHealth() < this.getMaxHealth() * 0.6f) {
-                System.out.println(PrintColor.red + "Spell is being locked! Unable to cast." + PrintColor.def);
-                mana += cost_2;
-            }
+        if (!super.castSkill_2(target)) {
+            return false;
+        }
+        else if (s2_locked()) {
+            System.out.println(PrintColor.red + "Spell is being locked! Unable to cast." + PrintColor.def);
+            mana += cost_2;
             return false;
         }
         final byte max_times = 5;
@@ -119,5 +119,9 @@ public class Swordsman extends Soldier {
     private void triggersTalent() {
         int healing = getMissingHealth() * 100 / getMaxHealth() * recovery / 50 + recovery;
         this.healing(healing);
+    }
+
+    public boolean s2_locked() {
+        return !(getHealth() <= getMaxHealth() * 0.4f);
     }
 }

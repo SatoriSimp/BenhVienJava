@@ -8,7 +8,8 @@ import com.company.Wait;
 public class StmKgt extends Enemy {
     private short skillCost = 4;
     private short defReduce, skillScale;
-    public boolean special = false;
+    private short defLoss = 0, resLoss = 0;
+    public boolean special = false, selfDebuff = false;
 
     public StmKgt() {
         setMaxHealth(18000);
@@ -30,15 +31,22 @@ public class StmKgt extends Enemy {
                 PrintColor.BGreen("Armament of Annihilation") + ": Gains " + PrintColor.green + "4 layers of 'Shields'" + PrintColor.def + " at the start of the battle.\n" +
                 PrintColor.BBlue("Dauntless Charge") + ": Prioritize attacks the unit with " + PrintColor.UYellow("highest DEF") + " and " + PrintColor.Blue("reduce their armor by " + Math.abs(defReduce) + "% in 3 turns\n") +
                 PrintColor.BRed("Unto One's Death") + ": Constantly searches and locks-on target with " + PrintColor.UGreen("highest HP percentage") + " and launch 4 attacks on them consecutively, " + PrintColor.red +
-                "dealing physic damage with each attack" + PrintColor.def + ".\nAfter the attack end, self are affected with " + PrintColor.blue + "40% 'Fragile'" + PrintColor.def + " within the next turn." +
+                "dealing physic damage with each attack" + PrintColor.def + ".\nAfter the attack end, " + PrintColor.Blue("DEF and RES are significantly reduced") + " within the next turn." +
                 PrintColor.Byellow + "\n\nDuring the second phase:" + PrintColor.def +
-                "\n- DEF is reduced, " + PrintColor.BGreen("\"Armament of Annihilation\"") + " is refreshed" +
+                "\n- " + PrintColor.Blue("DEF is reduced") + ", " + PrintColor.BGreen("\"Armament of Annihilation\"") + " is refreshed" +
                 "\n- " + PrintColor.BBlue("\"Dauntless Charge\"") + " targets up to 2 units simultaneously." +
                 "\n- " + PrintColor.BRed("\"Unto One's Death\"") + " can launch 2 additional hits.");
     }
 
     @Override
     public void normalAttack(Entity target) {
+        if (selfDebuff) {
+            addDef(defLoss);
+            addRes(resLoss);
+            defLoss = 0;
+            resLoss = 0;
+            selfDebuff = false;
+        }
         if (this.mana >= skillCost) {
             castSkill();
             return;
@@ -58,12 +66,11 @@ public class StmKgt extends Enemy {
 
     public void castSkill() {
         this.mana -= skillCost;
-        addDefIgn((short) 50);
         int baseDmg = getAtk() * skillScale / 100;
         byte hits = (byte) (isCanRevive() ? 4 : 6);
         if (special) hits++;
         for (byte i = 0; i < hits; ++i) {
-            int mbonus = special ? (int) (getAtk() * 0.15) : 0;
+            int mbonus = special ? (int) (getAtk() * 0.25) : 0;
             if (!EntitiesList.Players_isAlive()) {
                 addDefIgn((short) -50);
                 return;
@@ -72,14 +79,28 @@ public class StmKgt extends Enemy {
             dealingDamage(tar, damageOutput(baseDmg, 0, mbonus, tar), "Unto One's Death", PrintColor.red);
             Wait.sleep(1000);
         }
-        addDefIgn((short)-50);
-        if (!challengeMode) this.fragile.setValue((short) 40, (short)2);
+
+        if (!challengeMode) {
+            defLoss = (short) (getBaseDef() * 0.6);
+            resLoss = (short) (getBaseRes() * 0.6);
+            selfDebuff = true;
+            addDef((short) (defLoss * -1));
+            addRes((short) (resLoss * -1));
+        }
         if (special) setShield((short) Math.max(getShield(), 3));
     }
 
     @Override
     public void revive() {
+        if (selfDebuff) {
+            addDef(defLoss);
+            addRes(resLoss);
+            defLoss = 0;
+            resLoss = 0;
+            selfDebuff = false;
+        }
         super.revive();
+        System.out.println(PrintColor.BRed("Keep marching on!"));
         setMaxHealth(getMaxHealth());
         setDef((short) (getBaseDef() * 0.35f));
         addAtk((short) (getBaseAtk() * 0.15f));
@@ -94,6 +115,6 @@ public class StmKgt extends Enemy {
         defReduce = -80;
         ChallengeModeStatsUp();
         skill +=  "The DEF reduction effect from \"Dauntless Charge\" is strengthened, and \"Unto One's Death\" no longer " +
-                "inflicts 'Fragile' on self upon finishing";
+                "reduces self resistances upon finishing";
     }
 }

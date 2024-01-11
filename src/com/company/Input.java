@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Input {
     private static final Scanner sc = new Scanner(System.in);
     private static boolean fineInp;
-
     public static String Str(String message) {
         String res = null;
         fineInp = false;

@@ -44,7 +44,8 @@ public class Medic extends Soldier {
                 + ". When this unit is present, all allies " + PrintColor.Green("max HP +8%") + ".";
         s1_name = PrintColor.BBlue("Weakening");
         s1_des = "Casts a special spell on an enemy, dealing " + PrintColor.Purple((200 + getAp() * 4 / 3) + " (200 + 133% AP) magic damage")
-                + " and " + PrintColor.Blue("reduces their ATK by 35%") + " in 2 turns.";
+                + " and " + PrintColor.Blue("reduces their ATK by 35%") + " in 2 turns. An allied unit with lowest HP is " + PrintColor.Green("healed for 100% of the damage dealt")
+                + ", self gains 1 stack of " + PrintColor.BYellow("\"Clarity\"") + ".";
         s2_name = PrintColor.BGreen("Enkaphelin");
         s2_des = "Gather the quintessence of healing art, " + PrintColor.BGreen("cleanses")
                 + " the effect of " + PrintColor.Purple("'Grievous Wound'") + " on all friendly units, then heals each of them for "
@@ -72,7 +73,7 @@ public class Medic extends Soldier {
             case 1:
                 System.out.println("Pick a target:");
                 for (Soldier t : SoList) {
-                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Green(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]"));
                     ++cnt;
                 }
                 enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
@@ -112,7 +113,7 @@ public class Medic extends Soldier {
                 if (tar_2) {
                     System.out.println("Pick a target:");
                     for (Soldier t : SoList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName());
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Green(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]"));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));
@@ -182,13 +183,23 @@ public class Medic extends Soldier {
 
     @Override
     public void preBattleSpecial() {
+        if (preBattleEffectApplied) return;
+        preBattleEffectApplied = true;
         SoList.forEach(s -> s.setMaxHealth((int) (s.getMaxHealth() * 1.08f)));
     }
 
     @Override
     public boolean castSkill_1(Entity target) {
         if (!super.castSkill_1(target)) return false;
-        dealingDamage(target, damageOutput(0, 200 + getAp() * 4 / 3, target), s1_name, PrintColor.blue);
+        final int spellDmg = damageOutput(0, 200 + getAp() * 4 / 3, target);
+        dealingDamage(target, spellDmg, s1_name, PrintColor.blue);
+        final Soldier[] toHeal = {SoList.get(0)};
+        SoList.forEach(s -> {
+            if (s.isAlive() && s.getHealth() * 100 / s.getMaxHealth() < toHeal[0].getHealth() * 100 / toHeal[0].getMaxHealth())
+                toHeal[0] = s;
+        });
+        toHeal[0].healing(spellDmg);
+        clarity++;
         target.atkDebuff.initialize((short) 35, (short) 2);
         return true;
     }

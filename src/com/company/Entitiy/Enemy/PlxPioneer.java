@@ -21,6 +21,8 @@ public class PlxPioneer extends Enemy {
 
     @Override
     public void preBattleSpecial() {
+        if (preBattleEffectApplied) return;
+        preBattleEffectApplied = true;
         int plxcnt = 0;
         for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
         if (plxcnt >= 2) {
@@ -37,8 +39,9 @@ public class PlxPioneer extends Enemy {
     @Override
     public void update() {
         int plxcnt = 0;
-        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx")) plxcnt++;
-        if ((plxcnt < 2 && phalanx) || !this.isAlive()) {
+        for (Enemy e : EntitiesList.EnList) if (e.getName().contains("Phalanx") && e.isAlive()) plxcnt++;
+        if (phalanx && (plxcnt < 2 || !this.isAlive())) {
+            System.out.println(PrintColor.Blue("Enōmotía deactivated! The 'Invisible' statuses on all other enemies have been removed!"));
             phalanx = false;
             for (Enemy e : EntitiesList.EnList)
                 if (e.getName().contains("Phalanx")) {

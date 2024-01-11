@@ -91,7 +91,7 @@ public class Caster extends Soldier {
             case 1:
                 System.out.println("Pick a target:");
                 for (Enemy t : EnList) {
-                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
+                    if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Red(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]") + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                     ++cnt;
                 }
                 if (charged < charge_max) System.out.println(PrintColor.yellow + cnt + ". Charges this attack");
@@ -124,7 +124,7 @@ public class Caster extends Soldier {
                 else if (tar_1) {
                     System.out.println("Pick a target:");
                     for (Enemy t : EnList) {
-                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
+                        if (t.isAlive()) System.out.println(cnt + ". " + t.getName() + PrintColor.Red(" [" + t.getHealth() * 100 / t.getMaxHealth() + "%]") + PrintColor.Blue(t.isInvisible ? "    [Invisible]" : ""));
                         ++cnt;
                     }
                     enChoice = Input.Shrt("choice", (short) 1, (short) (cnt - 1));

@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -28,6 +27,11 @@ public class menu {
     }
 
     private static void getEntities(short mode) {
+        try {
+            playSound("ost\\boil.wav");
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
         ArrayList<Soldier> SoList = new ArrayList<>();
         ArrayList<Enemy> EnList = new ArrayList<>();
         int specialCombatEnv = 0;
@@ -49,24 +53,27 @@ public class menu {
                     "Bloodthirsty Heir / Engorged Heir",
                     "Rotchaser / Lunatic Rotchaser",
                     "\"Redmark\" Eradicator",
+                    "Collapsal Warrior",
+                    "Sanguinary Wither Tank",
                     "Sanguinary Wither Devourer / Sanguinary Wither Maw",
                     "The Avenger",
                     "The Singer",
-                    "Corrupted Bladeweaver / " + PrintColor.Red("Corrupted Worldcurser"),
-                    PrintColor.red + "The Last Steam Knight",
-                    PrintColor.red + "Emperor's Blade",
-                    PrintColor.red + "The Forsaken One",
-                    PrintColor.red + "Awakening",
-                    PrintColor.Red("Ya"));
+                    "Corrupted Bladeweaver / " + PrintColor.BRed("Corrupted Worldcurser"),
+                    PrintColor.Bred + "The Last Steam Knight",
+                    PrintColor.Bred + "Emperor's Blade",
+                    PrintColor.Bred + "The Forsaken One",
+                    PrintColor.Bred + "Awakening",
+                    PrintColor.BRed("Ya"),
+                    PrintColor.BRed("Branch of the Sanguinaria"));
             AtomicInteger index = new AtomicInteger(0);
             disEnList.forEach(en -> {
                 if (en == null) System.out.println(index.getAndIncrement() + " - No enemy");
                 else
-                    System.out.println(PrintColor.blue + index.getAndIncrement() + PrintColor.def + " - "
+                    System.out.println(PrintColor.green + index.getAndIncrement() + PrintColor.def + " - "
                             + PrintColor.yellow + en);
             });
-            System.out.print(PrintColor.green);
             for (int i = 1; i <= 3; ++i) {
+                System.out.print(PrintColor.green);
                 Enemy pick;
                 switch (Input.Shrt("enemy's ID", (short) 0, (short) (disEnList.size() - 1))) {
                     case 1:
@@ -109,38 +116,47 @@ public class menu {
                         pick = new Eradicator();
                         break;
                     case 14:
-                        pick = new Devourer();
+                        pick = new ColWarrior();
                         break;
                     case 15:
-                        pick = new Avenger();
+                        pick = new WitherTank();
                         break;
                     case 16:
-                        pick = new Singer();
+                        pick = new Devourer();
                         break;
                     case 17:
-                        pick = new PosSwrd();
+                        pick = new Avenger();
                         break;
                     case 18:
-                        pick = new StmKgt();
+                        pick = new Singer();
                         break;
                     case 19:
-                        pick = new EB();
+                        pick = new PosSwrd();
                         break;
                     case 20:
-                        pick = new TFO();
+                        pick = new StmKgt();
                         break;
                     case 21:
-                        pick = new Awakening();
+                        pick = new EB();
                         break;
                     case 22:
+                        pick = new TFO();
+                        break;
+                    case 23:
+                        pick = new Awakening();
+                        break;
+                    case 24:
                         pick = new Ya();
+                        break;
+                    case 25:
+                        pick = new Root();
                         break;
                     default:
                         pick = null;
                 }
                 EnList.add(pick);
 
-                if (pick != null) System.out.println(pick.getName() + " choosen!");
+                if (pick != null) System.out.println(PrintColor.Red(pick.getName()) + " chosen!");
             }
         }
         else {
@@ -155,6 +171,7 @@ public class menu {
                     "Cover Your Wounds",
                     "After Dark",
                     "Ancient Formation",
+                    "Misty Forest",
                     "All Quite under the Thunder",
                     "A Feat of Patriotic",
                     "Survive on Cliff",
@@ -171,6 +188,7 @@ public class menu {
                     "The path leads to home does not always feel the same. Especially when someone's lurking in that dark corner...",
                     "An ancient battlefield preserved in some arenas. Wishing to re-enact the competitive battles of the ancient knights, the opponents are monsters of desire and urbanity." +
                             "\nGlory, glory ceased to exist long ago.",
+                    "Fog envelops the deep forest, hiding the Sanguinaria's creatures within. Be vigilant, advance carefully, and don't be thrown off by the enemy's ambush.",
                     "The thunder is silent, the long night is dark, but our homeland's glory must stand eternal.",
                     "The will in these ruins is still not fallen - shall not be surmounted - cannot be exhausted - will do nothing but last forever.",
                     "To take down the target, you have to aim. Not there, but there.",
@@ -179,7 +197,7 @@ public class menu {
 
             int cnt = 1;
             for (String pName : packages) {
-                System.out.println((cnt++) + ". " + pName);
+                System.out.println(PrintColor.Yellow((cnt++) + ". ") + pName);
             }
 
             int packageChoice = Input.Int("your choice", 1, packages.length);
@@ -272,15 +290,48 @@ public class menu {
                     break;
                 case 9:
                     System.out.println("Enemy selected: " + PrintColor.BYellow("Phalanx Spirit-clever / Phalanx Shadowiest Mage / Phalanx Renowned Frontliner"));
-                    Collections.addAll(EnList, new PlxClever(), new PlxCaster(), new PlxPioneer(), new Mist());
+                    Collections.addAll(EnList, new PlxClever(), new PlxCaster(), new PlxPioneer());
                     break;
                 case 10:
+                    System.out.println(PrintColor.Red("Multi-part operation: This battle is divided into 3 waves, defeat all of them to win!\n") +
+                            "Enemies selected:\n"
+                            + PrintColor.BGreen("Wave 1: ") + PrintColor.BYellow("Sanguinary Witherer") + " / " + PrintColor.BYellow("Sanguinary Witherer") + " / " + PrintColor.BYellow("Sanguinary Royal Witherer") + ".\n"
+                            + PrintColor.Yellow("Wave 2: ") + PrintColor.BYellow("Sanguinary Descendant Chaincaster") + " / " + PrintColor.BYellow("Sanguinary Wither Devourer") + " / " + PrintColor.BYellow("Sanguinary Wither Tank") + ".\n"
+                            + PrintColor.Red("Wave 3: ") + PrintColor.BYellow("Sanguinary Wither Tank") + " / " + PrintColor.BYellow("Sanguinary Descendant Malicebearer") + " / " + PrintColor.BYellow("\"Gravestone\"") + " / " + PrintColor.BRed("Branch of the Sanguinaria") + ".");
+                    RoyalCourt rc1 = new RoyalCourt(), rc2 = new RoyalCourt((short) 10), rc3 = new RoyalCourt();
+                    rc1.setMaxHealth(12_000);
+                    rc2.setMaxHealth(20_000);
+                    rc3.setMaxHealth(12_000);
+                    Collections.addAll(EnList, rc1, rc2, rc3);
+
+                    Sanguinaria caster = new Sanguinaria((short) 342),
+                                malice = new Sanguinaria((short) 667);
+                    caster.setMaxHealth(caster.getMaxHealth() - 1000);
+                    caster.setAp((short) (caster.getBaseAp() - 100));
+                    caster.setDef((short) (caster.getDef() - 100));
+                    caster.setRes((short) (caster.getRes() + 200));
+                    malice.setAtk((short) (malice.getBaseAtk() - 300));
+                    malice.setDef((short) (malice.getDef() + 200));
+                    malice.setRes((short) (malice.getRes() - 100));
+
+                    Gravestone grv = new Gravestone();
+                    grv.setMaxHealth(20000);
+                    grv.setDef((short) 550);
+                    grv.setAtk((short) 300);
+
+                    ArrayList<Enemy> w2 = new ArrayList<>(), w3 = new ArrayList<>();
+                    Collections.addAll(w2, caster, new Devourer(), new WitherTank());
+                    Collections.addAll(w3, new Root(), malice, grv, new WitherTank());
+
+                    Collections.addAll(WaveEnList, w2, w3);
+                    break;
+                case 11:
                     System.out.println("Enemy selected: " + PrintColor.BYellow("Shapeshifter")
                             + PrintColor.Red("\nConditions: More friendly units can be brought into this mission."));
                     EnList.add(new Shapeshifter());
                     specialCombatEnv = 9;
                     break;
-                case 11:
+                case 12:
                     System.out.println("Enemy selected: " + PrintColor.BYellow("The Last Steam Knight")
                             + PrintColor.Red("\nConditions: The Last Steam Knight has increased RES. \"Unto One's Death\" can launch an additional hit in both phases and each hit deals bonus true damage. " +
                             "\"Armament of Annihilation\" will be refreshed whenever \"Unto One's Death\" is used, but with reduced shields count."));
@@ -291,13 +342,13 @@ public class menu {
                     Collections.addAll(EnList, stm);
                     specialCombatEnv = 10;
                     break;
-                case 12:
+                case 13:
                     System.out.println("Enemy selected: " + PrintColor.BRed("\"Bridge Clip\" Cliff")
                             + PrintColor.Red("\nCondition: The \"Heat Waves Spout\" is present."));
                     EnList.add(new Cliff());
                     EnList.add(new Heatwave());
                     break;
-                case 13:
+                case 14:
                     System.out.println("Enemy selected: " + PrintColor.BRed("Qual")
                         + PrintColor.Red("\nConditions: More friendly units can be brought into this battle. All friendly units have increased RES and gain natural HP recovery."));
                     EnList.add(new Qual());
@@ -313,10 +364,10 @@ public class menu {
 
         final int unitLim = (specialCombatEnv == 9 || specialCombatEnv == 12) ? 4 : 3;
         for (int i = 0; i < unitLim; ++i) {
-            System.out.println(PrintColor.Byellow + "Choose unit's class:");
+            System.out.println(PrintColor.def + "\nChoose your unit " + PrintColor.Yellow("(" + (i + 1) + " / " + unitLim + ")") + ":");
             AtomicReference<Short> order = new AtomicReference<>((short) 1);
             list.forEach(so -> {
-                System.out.print(PrintColor.purple + order.get() + ". " + so.getName() + ": " + PrintColor.def + so.shortDes);
+                System.out.print(PrintColor.blue + order.get() + " - " + PrintColor.BYellow(so.getName() + ": ") + so.shortDes);
                 System.out.println();
                 order.set((short) (order.get() + 1));
             });
@@ -363,16 +414,18 @@ public class menu {
                         s = null;
                         break;
                 }
+                if (s != null) System.out.println(PrintColor.Green(PrintColor.BYellow(s.getName()) + " chose!"));
                 SoList.add(s);
             }
         }
 
         new EntitiesList(SoList, EnList);
 
+
         switch (specialCombatEnv) {
             case 7:
                 SoList.forEach(so -> {
-                    so.burn.initialize((short) (so.getMaxHealth() * 0.3f), (short) 1, null);
+                    so.dealingDamage(so, (int) (so.getMaxHealth() * 0.3f), "", PrintColor.Bred, true);
                     so.bleed.initialize((short) (so.getMaxHealth() * 0.085f), (short) 100, null);
                 });
                 break;
@@ -384,7 +437,7 @@ public class menu {
                 break;
         }
 
-        System.out.println("Choose battle mode:" + "\n0. Experimental mode" + PrintColor.def + "\n1. Normal mode" + PrintColor.Yellow("\n2. Challenge Mode") + PrintColor.Red("\n3. Tribulation Mode"));
+        System.out.println("Choose battle mode:" + PrintColor.white + "\n0. Experimental mode" + PrintColor.def + "\n1. Normal mode" + PrintColor.Yellow("\n2. Challenge Mode") + PrintColor.Red("\n3. Tribulation Mode"));
         switch (Input.Shrt((short) 0, (short) 3)) {
             case 0:
                 System.out.println("Experimental mode selected!\nFriendlies have greatly increased base stats during this mode.");
@@ -621,11 +674,6 @@ public class menu {
     }
 
     public static void mainMenu() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-        try {
-            playSound("ost\\boil.wav");
-        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-            e.printStackTrace();
-        }
         System.out.println("Choose battle mode:"
                 + PrintColor.Yellow("\n1. Free selection") + ": Choose up to 3 enemies at will, including additional add-ons."
                 + PrintColor.Red("\n2. Packed selection") + ": Pick a pack with pre-selected enemies and add-ons.");
@@ -633,69 +681,72 @@ public class menu {
         // open the sound file as a Java input stream
         if (clip != null) clip.stop();
 
-        if (!Enemies_hasElite()) {
+        Enemy e = getFirstElite();
+        if (e != null) {
+            String theme = "";
+            String quote = "";
+
+            if (e instanceof Qual) {
+                theme = ".\\ost\\sanguinarch";
+                quote = e.challengeMode ? "Show me more, your Arts." : "Show me that, your Arts.";
+            }
+            else if (e instanceof Cliff) {
+                theme = ".\\ost\\cliff";
+                quote = "\"Yes?\"";
+            }
+            else if (e instanceof Ya) {
+                theme = ".\\ost\\ymmons";
+                quote = "It the one has seen it all!";
+            }
+            else if (e instanceof EB) {
+                theme = ".\\ost\\emblade";
+                quote = e.challengeMode ? "Snowfalls, blackening the earth." : "The blizzard, approaching.";
+            }
+            else if (e instanceof StmKgt) {
+                theme = ".\\ost\\stmkgt1";
+                quote = "The Knight charges forward!";
+            }
+            else if (e instanceof Awakening) {
+                theme = ".\\ost\\bbrain";
+                quote = "Awaken!";
+            }
+            else if (e instanceof Shapeshifter) {
+                theme = ".\\ost\\shift";
+                quote = "The calming sky foresees no good...";
+            }
+            else if (e instanceof TFO) {
+                theme = ".\\ost\\sacrifice";
+                quote = "As for one shall cleanse their sins...";
+            }
+            else if (e instanceof PlxCaster) {
+                theme = ".\\ost\\plxsqd";
+                quote = "The sky is dyed black!";
+            }
+            else if (e instanceof Root) {
+                theme = ".\\ost\\mist2";
+                quote = "Return to mist!";
+            }
+            else {
+                theme = ".\\ost\\bigbat";
+                quote = "Huh?";
+            }
+
+            playSound(theme + ".wav");
+            System.out.println(PrintColor.Red(quote + '\n'));
+            Wait.sleep(2000);
+        }
+        else {
             boolean fileExist = false;
             while (!fileExist) {
                 fileExist = true;
                 try {
                     String songName = "ost\\" + Input.Str("song name (type '0' to play none)") + ".wav";
                     if (!songName.equals("ost\\0.wav")) playSound(songName);
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException ex) {
                     System.out.println("File doesn't exist, make sure the filename is correct and is located inside \"ost\" folder, then try again!");
                     fileExist = false;
                 }
             }
-        }
-        else {
-            String theme = "";
-            String quote = "";
-            for (Enemy e : EnList) {
-                if (!e.isElite()) continue;
-
-                if (e instanceof Qual) {
-                        theme = ".\\ost\\sanguinarch";
-                        quote = e.challengeMode ? "Show me more, your Arts." : "Show me that, your Arts.";
-                }
-                else if (e instanceof Cliff) {
-                    theme = ".\\ost\\cliff";
-                    quote = "\"Yes?\"";
-                }
-                else if (e instanceof Ya) {
-                    theme = ".\\ost\\ymmons";
-                    quote = "It the one has seen it all!";
-                }
-                else if (e instanceof EB) {
-                    theme = ".\\ost\\emblade";
-                    quote = e.challengeMode ? "Snowfalls, blackening the earth." : "The blizzard, approaching.";
-                }
-                else if (e instanceof StmKgt) {
-                    theme = ".\\ost\\stmkgt1";
-                    quote = "The Knight charges forward!";
-                }
-                else if (e instanceof Awakening) {
-                    theme = ".\\ost\\bbrain";
-                    quote = "Awaken!";
-                }
-                else if (e instanceof Shapeshifter) {
-                    theme = ".\\ost\\shift";
-                    quote = "The calming sky foresees no good...";
-                }
-                else if (e instanceof TFO) {
-                    theme = ".\\ost\\sacrifice";
-                    quote = "As for one shall cleanse their sins...";
-                }
-                else if (e instanceof PlxCaster) {
-                    theme = e.challengeMode ? ".\\ost\\plxsqd_vo" : ".\\ost\\plxsqd";
-                    quote = "The sky is dyed black!";
-                }
-                else {
-                    theme = ".\\ost\\bigbat";
-                    quote = "Huh?";
-                }
-            }
-            playSound(theme + ".wav");
-            System.out.println(PrintColor.Red(quote));
-            Wait.sleep(2000);
         }
         battleStart();
         if (clip != null) clip.stop();
@@ -704,12 +755,27 @@ public class menu {
     }
 
     private static void battleStart() {
+        System.out.println(
+                PrintColor.BRed(
+                "|=======================================|\n" +
+                     "|                                       |\n" +
+                     "|            " + PrintColor.BPurple("BATTLE STARTS!") + PrintColor.BBlue("             |\n" +
+                     "|                                       |\n" +
+                     "|=======================================|"
+                ))
+        );
+        Wait.sleep(2000);
         gameStart();
-        if (Enemies_isAlive() || !Players_isAlive()) System.out.println("YOU LOST! Better luck next time");
+        if (Enemies_isAlive() || !Players_isAlive()) {
+            WaveEnList.removeIf(e -> true);
+            System.out.println("YOU LOST! Better luck next time");
+        }
+        else if (EntitiesList.addEnemy()) {
+            System.out.println(PrintColor.Red("Next wave!"));
+            battleStart();
+        }
         else {
             System.out.println("U won!");
-//          addNewEnemy();
-//          battleStart();
         }
     }
 

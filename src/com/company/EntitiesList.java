@@ -2,8 +2,10 @@ package com.company;
 
 import com.company.Entitiy.Allied.*;
 import com.company.Entitiy.Enemy.*;
+import com.company.Entitiy.Entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +13,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class EntitiesList {
     public static ArrayList<Enemy> EnList = new ArrayList<Enemy>();
+    public static ArrayList<ArrayList<Enemy>> WaveEnList = new ArrayList<>();
     public static ArrayList<Soldier> SoList = new ArrayList<Soldier>();
+    public static ArrayList<Entity> SummonList = new ArrayList<>();
 
     public EntitiesList(ArrayList<Soldier> So, ArrayList<Enemy> En) {
         EnList = (ArrayList<Enemy>) En.clone();
@@ -43,7 +47,27 @@ public class EntitiesList {
         for (Enemy en : EnList) {
             if (en.isElite()) return true;
         }
+
+        for (ArrayList<Enemy> lst : WaveEnList) {
+            for (Enemy en : lst) {
+                if (en.isElite()) return true;
+            }
+        }
         return false;
+    }
+
+    public static Enemy getFirstElite() {
+        for (Enemy en : EnList) {
+            if (en.isElite()) return en;
+        }
+
+        for (ArrayList<Enemy> lst : WaveEnList) {
+            for (Enemy en : lst) {
+                if (en.isElite()) return en;
+            }
+        }
+
+        return null;
     }
 
     public static void Entities_getPreBattleEffect() {
@@ -124,10 +148,30 @@ public class EntitiesList {
         while (summon_awaken.getAndDecrement() > 0) {
             EntitiesList.EnList.add(new Awakening.Awk());
         }
+
+        if (!SummonList.isEmpty()) {
+            SummonList.forEach(su -> {
+                su.isSummon = true;
+                if (su instanceof Enemy) EnList.add((Enemy) su);
+                else if (su instanceof Soldier) SoList.add((Soldier) su);
+            });
+            SummonList = new ArrayList<>();
+        }
+
         SoList.forEach(so -> so.printHealthBar(PrintColor.yellow));
         EnList.forEach(en -> en.printHealthBar(PrintColor.red));
         System.out.println();
         Wait.sleep();
+    }
+
+    public static boolean addEnemy() {
+        final boolean cm = (EnList.get(0).challengeMode);
+        EnList.removeIf(e -> !e.isAlive());
+        if (WaveEnList.isEmpty()) return false;
+        EnList.addAll(WaveEnList.get(0));
+        if (cm) EnList.forEach(EnemyBehaviors::setChallengeMode);
+        WaveEnList.remove(WaveEnList.get(0));
+        return true;
     }
 
     public static void updateStatus() {

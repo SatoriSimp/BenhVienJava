@@ -8,8 +8,7 @@ import java.util.HashMap;
 
 public class Flincher extends Soldier {
     private float shockwaveScale;
-    private short shockwave;
-    private final HashMap<Entity, Integer> BleedingTrack = new HashMap<>();
+    private static final HashMap<Entity, Integer> BleedingTrack = new HashMap<>();
 
     public Flincher() {
         setName("Flincher");
@@ -25,7 +24,6 @@ public class Flincher extends Soldier {
         res = 100;
         mana = 3;
         shockwaveScale = 0.6f;
-        shockwave = 1;
         setMaxHealth(hp);
         setAtk(atk);
         setDefIgn(defig);
@@ -41,23 +39,25 @@ public class Flincher extends Soldier {
                 + '\n' + gap_T
                 + PrintColor.BRed("Accumulating Injuries") + ": Enemy hit by shockwave suffers 1 stack of " + PrintColor.BRed("Injury")
                 + ". At 3 stacks, they become " + PrintColor.BRed("Bleeding") + " in the next 3 turns, continuously taking "
-                + PrintColor.Red(getAtk() * 80 / 100 + " (80% ATK) physic damage")
-                + " plus " + PrintColor.WHITE_BOLD + getAtk() * 80 / 100 + " (80% ATK) true damage" + PrintColor.def + " at the beginning of each turn."
+                + PrintColor.Red(getAtk() * 75 / 100 + " (75% ATK) + 1% target's max health as physic damage")
+                + " and " + PrintColor.WHITE_BOLD + getAtk() * 75 / 100 + " (75% ATK) + 1% target's max health as true damage" + PrintColor.def + " at the beginning of each turn."
                 + '\n' + gap_T
                 + PrintColor.BBlue("Stable Esthesia") + ": When this unit is present, all team members gain " + PrintColor.Red("+6% ATK")
                 + ", this unit gains " + PrintColor.Red("+10% ATK") + " instead.";
         s1_name = PrintColor.BRed("Nociceptor Inhibition");
-        s1_des = "Launches an attack that deals " + PrintColor.Red((325 + getAtk() * 22 / 10) + " (325 + 220% ATK) physic damage")
+        s1_des = "Launches an attack that deals " + PrintColor.Red((300 + getAtk() * 2) + " (300 + 200% ATK) physic damage")
                 + " and follows with 2 additional shockwaves.";
         s2_name = PrintColor.BRed("Changeability of Perceptive Information");
         s2_des = "Fires an explosive grenade that hits all enemies, dealing " + PrintColor.Red(getAtk() * 12 / 10 + " (120% ATK) physic damage")
                 + " and follows with a shockwave. The grenade additionally inflicts all target it hits with " + PrintColor.Cyan("25% 'Fragile'")
                 + " before causing another explosion that deals " + PrintColor.Red(getAtk() * 8 / 10 + " (80% ATK) physic damage")
-                + ", increased to " + PrintColor.Red(getAtk() * 35 / 10 + " (350% ATK) physic damage") + " if the target is " + PrintColor.BRed("Bleeding") + ".";
+                + ", increased to " + PrintColor.Red(getAtk() * 32 / 10 + " (320% ATK) physic damage") + " if the target is " + PrintColor.BRed("Bleeding") + ".";
     }
 
     @Override
     public void preBattleSpecial() {
+        if (preBattleEffectApplied) return;
+        preBattleEffectApplied = true;
         EntitiesList.SoList.forEach(s -> {
             if (s == this) {
                 s.setAtk((short) (s.getBaseAtk() * 1.1));
@@ -79,7 +79,7 @@ public class Flincher extends Soldier {
     @Override
     public boolean castSkill_1(Entity target) {
         if (!super.castSkill_1(target)) return false;
-        dealingDamage(target, damageOutput((int) (325 + getAtk() * 2.2), 0, target), s1_name, PrintColor.red);
+        dealingDamage(target, damageOutput((int) (300 + getAtk() * 2.0f), 0, target), s1_name, PrintColor.red);
         applyShockwave(target);
         applyShockwave(target);
         applyShockwave(target);
@@ -90,13 +90,17 @@ public class Flincher extends Soldier {
     public boolean castSkill_2(Entity target) {
         if (!super.castSkill_2(target)) return false;
         EntitiesList.EnList.forEach(en -> {
-            dealingDamage(en, damageOutput((short) (getAtk() * 1.2), 0, en), "Explosion", PrintColor.red);
-            applyShockwave(en);
-            en.fragile.setValue((short) 25, (short) 1);
+            if (en.isAlive()) {
+                dealingDamage(en, damageOutput((short) (getAtk() * 1.2), 0, en), "Explosion", PrintColor.red);
+                applyShockwave(en);
+                en.fragile.setValue((short) 25, (short) 1);
+            }
         });
         EntitiesList.EnList.forEach(en -> {
-            final float scl = (float) (en.bleed.inEffect() ? 3.5 : 0.8);
-            dealingDamage(en, damageOutput((int) (getAtk() * scl), 0, en), "Second Iteration", PrintColor.Bred);
+            if (en.isAlive()) {
+                final float scl = (float) (en.bleed.inEffect() ? 3.2 : 0.8);
+                dealingDamage(en, damageOutput((int) (getAtk() * scl), 0, en), "Second Iteration", PrintColor.Bred);
+            }
         });
         return true;
     }
@@ -106,7 +110,7 @@ public class Flincher extends Soldier {
         if (BleedingTrack.containsKey(target)) {
             if (BleedingTrack.get(target) >= 2) {
                 System.out.println(PrintColor.Yellow(target.getName()) + " has been inflicted with " + PrintColor.Red("Bleeding!"));
-                target.bleed.initialize((short) (this.getAtk() * 1.6f), (short) 3, this);
+                target.bleed.initialize((short) (this.getAtk() * 1.5f + target.getMaxHealth() * 0.02f), (short) 3, this);
                 BleedingTrack.remove(target);
             }
             else BleedingTrack.replace(target, BleedingTrack.get(target) + 1);
